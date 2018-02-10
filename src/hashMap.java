@@ -29,7 +29,8 @@ public class hashMap {
     private static File inFile1 = new File("T1.txt");
     private static File inFile2 = new File("T2.txt");
     private static File premap = new File("premap.txt");
-    private static File outFile2 = new File("");
+    private static File premap1 = new File("premap1.txt");
+    private static File damap = new File("map.txt");
 
     private static ArrayList<String> buffer;
 
@@ -53,6 +54,8 @@ public class hashMap {
             final FileWriter fw = new FileWriter(premap);
             String content = null;
             int i=0;
+
+            //here is the map landing from 2 files
             while(((content=br1.readLine())!=null)){
                 if (map.size()>20000){
                     for (String p: map.keySet()){
@@ -86,21 +89,72 @@ public class hashMap {
                 }
                 buffer.clear();
             }
-            //TODO:merge premap, to make a proper hashmap of distinct keys
-//            br1.close();
-//            br2.close();
-//            bw1.close();
-//            br1 = new BufferedReader(new FileReader(premap));
-//            content=null;
-//            buffer.clear();
+            //some cleanup
+            br1.close();
+            br2.close();
+            bw1.close();
+            br1 = new BufferedReader(new FileReader(premap));
+            bw1 = new BufferedWriter(new FileWriter(premap1));
+            content=null;
+            buffer.clear();
+            map.clear();
+            Comparator<String> sAscComp = (s1, s2) -> s1.substring(0, 8).compareTo(s2.substring(0, 8));
+//this is sort of premap, and as a result you have somewhat presorted map, but with unmerged values
+            while(((content=br1.readLine())!=null)){
+
+                for (i = 0;i<45000;i++) {
+                    content=br1.readLine();
+                    if(content!=null) {
+                        buffer.add(content);
+                    }
+                }
+                buffer =(ArrayList<String>) buffer
+                        .stream()
+                        .sorted(sAscComp)
+                        .collect(Collectors.toList());
+
+                for (i = 0;i<buffer.size();i++) {
+                    bw1.newLine();
+                    bw1.write(buffer.get(i));
+
+                }
+                buffer.clear();
+            }
+
+            //cleanup again
+            br1.close();
+            bw1.close();
+            map.clear();
+            content = null;
+            br1 = new BufferedReader(new FileReader(premap));
+            bw1 = new BufferedWriter(new FileWriter(damap));
+
+            //some crazy nonworking shit code, even without strong idea
 //            while(((content=br1.readLine())!=null)){
-//                for (i = 0;i<20000;i++) {
+//
+//                for (i = 0;i<45000;i++) {
 //                    content=br1.readLine();
 //                    if(content!=null) {
 //                        buffer.add(content);
 //                    }
 //                }
+//                buffer =(ArrayList<String>) buffer
+//                        .stream()
+//                        .sorted(sAscComp)
+//                        .collect(Collectors.toList());
+////                for (i = 0;i<buffer.size();i++) {
+////                    int value = Integer.parseInt(buffer.get(i).substring(9));
+////                    map.merge(buffer.get(i).substring(0,8),value, (k,v)->v+value);
+////                }
+//                for (i = 0;i<buffer.size();i++) {
+//                    bw1.newLine();
+//                    bw1.write(buffer.get(i));
+//
+//                }
+//                buffer.clear();
 //            }
+
+
 
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
