@@ -20,8 +20,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
 public class mainPart {
-	
-	
+
 	public static void writeToFile (String s, FileWriter fw) {
 		try {
 			fw.write(String.format("%s%n", s));
@@ -29,18 +28,15 @@ public class mainPart {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	private static File inFile1 = new File("input1.txt");
 	private static File inFile2 = new File("");
 	private static File outFile1 = new File("output1.txt");
 	private static File outFile2 = new File("");
-	
-	
+
 	private static ArrayList<String> buffer;
-	
-	
+	private static long[] buff1 = new long[2000];
+
 	public static void main(String[] args) {
 		Comparator<String> sAscComp = (s1, s2) -> s1.substring(0, 8).compareTo(s2.substring(0, 8));
 		long startTime = System.currentTimeMillis();
@@ -60,7 +56,7 @@ public class mainPart {
 				buffer.clear();
 				buffer.add(content);
 				number ++;
-				for (i = 0;i<2000;i++) {
+				for (i = 0;i<1000;i++) {
 				content=br1.readLine();
 					if(content!=null) {
 						buffer.add(content);
@@ -126,28 +122,6 @@ public class mainPart {
 	}
 }
 
-class threadSorter implements Callable<ArrayList<String>>{
-	ArrayList<String> sorted;
-	public threadSorter(ArrayList<String> ar) {
-		sorted = ar;
-	}
-
-	@Override
-	public ArrayList<String> call() throws Exception {
-		Collections.sort(sorted, new AscComparator());
-		return sorted;
-	}
-	
-
-}
 
 
-class AscComparator implements Comparator <String>{
 
-	@Override
-	public int compare(String o1, String o2) {		
-		//return Integer.parseInt(o1.substring(0,8)) - Integer.parseInt(o2.substring(0,8));
-		return o1.substring(0,8).compareTo(o2.substring(0,8));
-				
-	}
-}
