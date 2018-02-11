@@ -247,8 +247,10 @@ public class hashMap {
             //result generator
             br1.close();
             br2.close();
-            br1 = new BufferedReader(new FileReader(damap));
             
+            
+            
+            br1 = new BufferedReader(new FileReader(damap));
             bw1 = new BufferedWriter(new FileWriter(result));
            
             buffer = null;
@@ -258,17 +260,17 @@ public class hashMap {
             ArrayList<String>  buff1 = new ArrayList<>();
             content = null;
             String fLine = null;
-            String result = null;
             HashMap<String, String> sBuff1 = new HashMap<String, String>();
             
             while((content=br1.readLine())!=null) {
+            	buff1.add(content);
             	for (i=0;i<mapChunk;i++) {
             		content=br1.readLine();
                     if(content!=null) {
                         buff1.add(content);
-                    }
+                    }                    
             	}
-            	System.out.println("Map chunk is here");
+            	//System.out.println("Map chunk is here");
             	br2 = new BufferedReader(new FileReader(inFile1));
             	while((fLine=br2.readLine())!=null){
             		
@@ -278,7 +280,7 @@ public class hashMap {
             				sBuff1.put(fLine.substring(0,8),fLine);
             			}
             		}
-            		System.out.println("chunk t1 is here");
+            		//System.out.println("chunk t1 is here");
             		for(String mapLine : buff1) {
             			if (sBuff1.get(mapLine.substring(0,8))!=null) {
             			bw1.write(sBuff1.get(mapLine.substring(0,8))+" "+mapLine.substring(9)+"\n");
