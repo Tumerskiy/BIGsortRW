@@ -15,6 +15,8 @@ public class Entries {
 		long freeMemory = runtime.freeMemory();
 		
 		Random random  = new Random();
+
+		int n = 100000 + random.nextInt( 900000);
 		
 		
 		String haString = "John   Smiths 111222999999999 1455             Maisonneuve West, Montreal,       QC, H3G 1M8";
@@ -27,8 +29,10 @@ public class Entries {
 		
 		System.out.println(haString.length());
 		BufferedWriter bw1 = null;
+		BufferedWriter bw2 = null;
 		try {
-			bw1 = new BufferedWriter(new FileWriter("input1.txt"));
+			bw1 = new BufferedWriter(new FileWriter("T1.txt"));
+			bw2 = new BufferedWriter(new FileWriter("T2.txt"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,17 +40,17 @@ public class Entries {
 		for (long j=0;j<100000;j++) {
 			try {
 				StringBuilder sb = new StringBuilder();
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
-				sb.append(random.nextInt(10));
+				sb.append(10000000 + random.nextInt( 90000000));
 				sb.append(haString);
-				bw1.newLine();
+				sb.append("\n");
 				bw1.write(sb.toString());
+				if (random.nextInt(50)>25){
+					sb = new StringBuilder();
+					sb.append(10000000 + random.nextInt( 90000000));
+					sb.append(haString);
+					sb.append("\n");
+				}
+				bw2.write(sb.toString());
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -56,6 +60,7 @@ public class Entries {
 		}
 		try {
 			bw1.close();
+			bw2.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

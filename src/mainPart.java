@@ -5,6 +5,7 @@ import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,10 +40,10 @@ public class mainPart {
 	
 	
 	private static ArrayList<String> buffer;
-	
+	static Comparator<String> sAscComp = (s1, s2) -> s1.substring(0, 8).compareTo(s2.substring(0, 8));
 	
 	public static void main(String[] args) {
-		Comparator<String> sAscComp = (s1, s2) -> s1.substring(0, 8).compareTo(s2.substring(0, 8));
+		
 		long startTime = System.currentTimeMillis();
 		BufferedReader br1 = null;
 		BufferedReader br2 = null;
@@ -60,18 +61,18 @@ public class mainPart {
 				buffer.clear();
 				buffer.add(content);
 				number ++;
-				for (i = 0;i<2000;i++) {
+				for (i = 1;i<5000;i++) {
 				content=br1.readLine();
 					if(content!=null) {
 						buffer.add(content);
-						number++;
+						//number++;
 					}
 				}
 				//Collections.sort(buffer, new AscComparator());
 				
 				
-				buffer =(ArrayList<String>) buffer
-					.stream()
+				buffer =(ArrayList<String>) buffer										
+					.stream()					
 					.sorted(sAscComp)
 					.collect(Collectors.toList());
 				 
@@ -83,15 +84,66 @@ public class mainPart {
 					
 				
 				for (i = 0;i<buffer.size();i++) {
-					bw1.newLine();
 					bw1.write(buffer.get(i));
+					bw1.newLine();
 				
 				}
 			}
+			buffer.clear();
+			
+			bw1.close();
+			br1.close();
+			/*
+			ArrayList<BufferedReader> bufferedReaders = new ArrayList<>();
+			for (int j=0;j<number;j++) {
+				BufferedReader nbReader = new BufferedReader(new FileReader(outFile1));
+				for (int k = 0;k<j*5000;k++) {
+					nbReader.readLine();
+				}
+				bufferedReaders.add(nbReader);
+			}
+			
+			for (int j=0;j<number;j++) {
+				System.out.println(5000*j+1+")"+bufferedReaders.get(j).readLine());
+			}
+			
+
+			
+			
+			
+			
+			for (int j=0;j<number;j++) {
+				bufferedReaders.get(j).close();
+			}
+			*/
 			long stopTime = System.currentTimeMillis();
 		      long elapsedTime = stopTime - startTime;
 		      System.out.println(elapsedTime);
 		      System.out.println(number);
+		      
+/*_____________*/
+		      Runtime runtime = Runtime.getRuntime();
+
+		      NumberFormat format = NumberFormat.getInstance();
+
+				
+				long maxMemory = runtime.maxMemory();
+				long allocatedMemory = runtime.totalMemory();
+				long freeMemory = runtime.freeMemory();
+				
+				StringBuilder sb = new StringBuilder();
+		      
+				
+				sb.append("free memory: " + format.format(freeMemory / 1024) + "\n");
+				sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
+				sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
+				sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "\n");
+				
+				System.out.println(sb);
+		      
+		     
+/*_____________*/		      
+		      
 			/*
 			if (!outFile1.exists()) {
 				outFile1.createNewFile();
@@ -125,8 +177,9 @@ public class mainPart {
 		}
 	}
 }
-
+/*
 class threadSorter implements Callable<ArrayList<String>>{
+	Comparator<String> sAscComp = (s1, s2) -> s1.substring(0, 8).compareTo(s2.substring(0, 8));
 	ArrayList<String> sorted;
 	public threadSorter(ArrayList<String> ar) {
 		sorted = ar;
@@ -134,20 +187,11 @@ class threadSorter implements Callable<ArrayList<String>>{
 
 	@Override
 	public ArrayList<String> call() throws Exception {
-		Collections.sort(sorted, new AscComparator());
+		sorted =(ArrayList<String>) sorted										
+				.stream()					
+				.sorted(sAscComp)
+				.collect(Collectors.toList());
 		return sorted;
 	}
-	
-
 }
-
-
-class AscComparator implements Comparator <String>{
-
-	@Override
-	public int compare(String o1, String o2) {		
-		//return Integer.parseInt(o1.substring(0,8)) - Integer.parseInt(o2.substring(0,8));
-		return o1.substring(0,8).compareTo(o2.substring(0,8));
-				
-	}
-}
+*/
