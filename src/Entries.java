@@ -46,7 +46,7 @@ public class Entries {
 		
 		for (long j=0;j<100000;j++) {
 			try {
-				if (random.nextInt(50)>25) {
+				if (random.nextInt(60)>25) {
 					sb = new StringBuilder();
 					sb.append(10000000 + random.nextInt(90000000));
 					sb.append(haString);

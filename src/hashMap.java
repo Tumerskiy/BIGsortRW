@@ -81,10 +81,10 @@ public class hashMap {
                     }
                 }
                 for (i = 0;i<buffer.size();i++) {
-                    if (buffer.get(i).length()<8){
-                        System.out.println(buffer.get(i));
-                    }
-                    map.merge(buffer.get(i).substring(0,8), -1, (k,v) -> v-1);
+//                    if (buffer.get(i).length()<8){
+//                        System.out.println(buffer.get(i));
+//                    }
+                	map.merge(buffer.get(i).substring(0,8), -1, Integer::sum);
                 }
                 buffer.clear();
             }
