@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.awt.List;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.BufferedWriter; 
 
 public class hashMap {
 
@@ -31,6 +31,7 @@ public class hashMap {
     private static File premap = new File("premap.txt");
     private static File premap1 = new File("premap1.txt");
     private static File damap = new File("map.txt");
+    private static File result = new File("result.txt");
 
     private static ArrayList<String> buffer;
 
@@ -219,7 +220,7 @@ public class hashMap {
 	            			j--;
 	            		}
 	            }
-	            System.out.println(p+")"+min+": "+c);	            
+	            //System.out.println(p+")"+min+": "+c);	            
 	            //min = compareBuffer[1].substring(0, 8);
 	            if (c<0) c=0;
 	            bw1.write(min+":"+c);
@@ -232,6 +233,7 @@ public class hashMap {
             for (int j = 0;j<numberOfSublist;j++) {
             		indexes.get(j).close();
             }
+            
             indexes.clear();
             min = null;
             in = null;
@@ -240,6 +242,58 @@ public class hashMap {
             minIndex = 0;
             number = 0;
             numberOfSublist = 0;
+            
+            
+            //result generator
+            br1.close();
+            br2.close();
+            br1 = new BufferedReader(new FileReader(damap));
+            
+            bw1 = new BufferedWriter(new FileWriter(result));
+           
+            buffer = null;
+            
+            int mapChunk = 20000;
+            int iChunk = 4000;
+            ArrayList<String>  buff1 = new ArrayList<>();
+            content = null;
+            String fLine = null;
+            String result = null;
+            HashMap<String, String> sBuff1 = new HashMap<String, String>();
+            
+            while((content=br1.readLine())!=null) {
+            	for (i=0;i<mapChunk;i++) {
+            		content=br1.readLine();
+                    if(content!=null) {
+                        buff1.add(content);
+                    }
+            	}
+            	System.out.println("Map chunk is here");
+            	br2 = new BufferedReader(new FileReader(inFile1));
+            	while((fLine=br2.readLine())!=null){
+            		
+            		for (i=0;i<iChunk;i++) {
+            			fLine = br2.readLine();
+            			if(fLine!=null) {
+            				sBuff1.put(fLine.substring(0,8),fLine);
+            			}
+            		}
+            		System.out.println("chunk t1 is here");
+            		for(String mapLine : buff1) {
+            			if (sBuff1.get(mapLine.substring(0,8))!=null) {
+            			bw1.write(sBuff1.get(mapLine.substring(0,8))+" "+mapLine.substring(9)+"\n");
+            			}
+
+            		}
+            		sBuff1.clear();
+            		
+            	}
+            	buff1.clear();
+            	
+            }            
+            br1.close();
+            br2.close();
+            bw1.close();
             
             
             long stopTime = System.currentTimeMillis();
