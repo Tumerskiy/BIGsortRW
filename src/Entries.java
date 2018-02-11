@@ -37,12 +37,19 @@ public class Entries {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		StringBuilder sb = new StringBuilder();
+		sb = new StringBuilder();
+		sb.append(10000000 + random.nextInt( 90000000));
+		sb.append(haString);
+		sb.append("\n");
 		for (long j=0;j<100000;j++) {
 			try {
-				StringBuilder sb = new StringBuilder();
-				sb.append(10000000 + random.nextInt( 90000000));
-				sb.append(haString);
-				sb.append("\n");
+				if (random.nextInt(30)>25) {
+					sb = new StringBuilder();
+					sb.append(10000000 + random.nextInt(90000000));
+					sb.append(haString);
+					sb.append("\n");
+				}
 				bw1.write(sb.toString());
 				if (random.nextInt(50)>25){
 					sb = new StringBuilder();

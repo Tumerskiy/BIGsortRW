@@ -148,7 +148,7 @@ public class hashMap {
             		indexesN[j]= 1;
             }
             
-            bw1 = new BufferedWriter(new FileWriter(premap));
+            bw1 = new BufferedWriter(new FileWriter(damap));
             
             String min = compareBuffer[0].substring(0, 8);
             String in = null;
