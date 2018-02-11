@@ -38,26 +38,30 @@ public class Entries {
 			e.printStackTrace();
 		}
 		StringBuilder sb = new StringBuilder();
-		sb = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder();
 		sb.append(10000000 + random.nextInt( 90000000));
 		sb.append(haString);
 		sb.append("\n");
+	
+		
 		for (long j=0;j<100000;j++) {
 			try {
-				if (random.nextInt(30)>25) {
+				if (random.nextInt(50)>25) {
 					sb = new StringBuilder();
 					sb.append(10000000 + random.nextInt(90000000));
 					sb.append(haString);
 					sb.append("\n");
 				}
 				bw1.write(sb.toString());
-				if (random.nextInt(50)>25){
-					sb = new StringBuilder();
-					sb.append(10000000 + random.nextInt( 90000000));
-					sb.append(haString);
-					sb.append("\n");
-				}
-				bw2.write(sb.toString());
+				
+					sb2 = new StringBuilder();
+					sb2.append(10000000 + random.nextInt( 90000000));
+					sb2.append(haString);
+					sb2.append("\n");
+					if (random.nextInt(30)>25){
+						sb2=sb;
+					}
+				bw2.write(sb2.toString());
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
