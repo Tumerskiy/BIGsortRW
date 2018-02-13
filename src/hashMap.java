@@ -1,30 +1,15 @@
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.Buffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.awt.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter; 
 
-public class hashMap {
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
-    public static void writeToFile (String s, FileWriter fw) {
-        try {
-            fw.write(String.format("%s%n", s));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+public class hashMap {
 
     private static File inFile1 = new File("T1.txt");
     private static File inFile2 = new File("T2.txt");
@@ -85,7 +70,7 @@ public class hashMap {
 //                    if (buffer.get(i).length()<8){
 //                        System.out.println(buffer.get(i));
 //                    }
-                	map.merge(buffer.get(i).substring(0,8), -1, Integer::sum);
+                    map.merge(buffer.get(i).substring(0,8), -1, Integer::sum);
                 }
                 buffer.clear();
             }
@@ -103,8 +88,8 @@ public class hashMap {
             int numberOfSublist = 0;
             int number = 0;
             while(((content=br1.readLine())!=null)){
-            	numberOfSublist ++;
-                for (i = 0;i<45000;i++) {
+                numberOfSublist ++;
+                for (i = 0;i<40000;i++) {
                     content=br1.readLine();
                     if(content!=null) {
                         buffer.add(content);
@@ -135,18 +120,20 @@ public class hashMap {
             content = null;
             
             //merge
+            
+            System.out.println(numberOfSublist);
             int[] indexesN = new int[numberOfSublist];
             
             String[] compareBuffer = new String[numberOfSublist];
             ArrayList<BufferedReader> indexes = new ArrayList<>();
             for (int j=0;j<numberOfSublist;j++) {
-            		br1 = new BufferedReader(new FileReader(premap1));
-            		for (int skip=0; skip<45000*j;skip++) {
-            			br1.readLine();
-            		}
-            		indexes.add(br1);
-            		compareBuffer[j] = (br1.readLine());
-            		indexesN[j]= 1;
+                    br1 = new BufferedReader(new FileReader(premap1));
+                    for (int skip=0; skip<40000*j;skip++) {
+                        br1.readLine();
+                    }
+                    indexes.add(br1);
+                    compareBuffer[j] = (br1.readLine());
+                    indexesN[j]= 1;
             }
             
             bw1 = new BufferedWriter(new FileWriter(damap));
@@ -157,81 +144,79 @@ public class hashMap {
             int p = 0;
             int c = 0;
             while (p<number) {
-            		c = 0;
-            		//i need to fix this shit
-
-				min = "100000000";
-            		
-            		minIndex = 0;
-	            for (int j = 0;j<numberOfSublist;j++) {// find min
-	            		
-//	            		System.out.println(j+") "+compareBuffer[j]);
-	            	
-		            	if (compareBuffer[j]!=null) {
-		            			in = compareBuffer[j].substring(0, 8);
-			            		if (Integer.parseInt(min)> Integer.parseInt(in)) {
-			            			min = in;
-			            			minIndex = j;
-			            		}
-		            		}
-	            		
-	            }
-	            if (compareBuffer[minIndex]==null) break;
-	            c = Integer.parseInt(compareBuffer[minIndex].substring(9));
-	            
-	            if (indexesN[minIndex]<45000) {
-    					compareBuffer[minIndex] = indexes.get(minIndex).readLine();
-    					indexesN[minIndex]++;
-    					p++;
-    				}
-	            else {
-					compareBuffer[minIndex] = null;
-				}
-	            
-	            
-	            
-//	            System.out.println("min: "+minIndex+" "+min);
-	            
-	            
-	            
-//	            System.out.println("replaced:");
-	            
-//	            for (int j = 0;j<numberOfSublist;j++) {
-//	            		System.out.println(" "+j+") "+compareBuffer[j]);	            	
-//	            }
-	            
-	            
-	            for (int j = 0;j<numberOfSublist;j++) {
-	            	if (compareBuffer[j]!=null && min != null)
-	            		if (min.equals(compareBuffer[j].substring(0, 8))){
-	            			//System.out.println(min+"<->"+compareBuffer[j]+" "+j);
-	            			c += Integer.parseInt(compareBuffer[j].substring(9));
-	            			//System.out.println(min+":   "+counter);
-	            			if (indexesN[j]<45000) {
-	            				compareBuffer[j] = indexes.get(j).readLine();
-		            			indexesN[j]++;
-		            			p++;	
-	            			}
-	            			else {
-								compareBuffer[j] = null;
-							}
-	            			
-	            			
-	            			j--;
-	            		}
-	            }
-	            //System.out.println(p+")"+min+": "+c);	            
-	            //min = compareBuffer[1].substring(0, 8);
-	            if (c<0) c=0;
-	            bw1.write(min+":"+c);
-	            bw1.newLine();
-	            
-            			
+                c = 0;
+                min = "100000000";
+                    
+                    minIndex = 0;
+                for (int j = 0;j<numberOfSublist;j++) {// find min
+                        
+//                      System.out.println(j+") "+compareBuffer[j]);
+                    
+                        if (compareBuffer[j]!=null) {
+                                in = compareBuffer[j].substring(0, 8);
+                                if (Integer.parseInt(min)> Integer.parseInt(in)) {
+                                    min = in;
+                                    minIndex = j;
+                                }
+                            }
+                        
+                }
+                if (compareBuffer[minIndex]==null) break;
+                c = Integer.parseInt(compareBuffer[minIndex].substring(9));
+                
+                if (indexesN[minIndex]<40000) {
+                        compareBuffer[minIndex] = indexes.get(minIndex).readLine();
+                        indexesN[minIndex]++;
+                        p++;
+                    }
+                else {
+                    compareBuffer[minIndex] = null;
+                }
+                
+                
+                
+//              System.out.println("min: "+minIndex+" "+min);
+                
+                
+                
+//              System.out.println("replaced:");
+                
+//              for (int j = 0;j<numberOfSublist;j++) {
+//                      System.out.println(" "+j+") "+compareBuffer[j]);                    
+//              }
+                
+                
+                for (int j = 0;j<numberOfSublist;j++) {
+                    if (compareBuffer[j]!=null && min != null)
+                        if (min.equals(compareBuffer[j].substring(0, 8))){
+                            //System.out.println(min+"<->"+compareBuffer[j]+" "+j);
+                            c += Integer.parseInt(compareBuffer[j].substring(9));
+                            //System.out.println(min+":   "+counter);
+                            if (indexesN[j]<40000) {
+                                compareBuffer[j] = indexes.get(j).readLine();
+                                indexesN[j]++;
+                                p++;    
+                            }
+                            else {
+                                compareBuffer[j] = null;
+                            }
+                            
+                            
+                            j--;
+                        }
+                }
+                //System.out.println(p+")"+min+": "+c);             
+                //min = compareBuffer[1].substring(0, 8);
+                if (c<0) c=0;
+                bw1.write(min+":"+c);
+                bw1.newLine();
+                
+                        
             }
             
             bw1.close();
             for (int j = 0;j<numberOfSublist;j++) {
-            		indexes.get(j).close();
+                    indexes.get(j).close();
             }
             
             indexes.clear();
@@ -263,35 +248,35 @@ public class hashMap {
             HashMap<String, String> sBuff1 = new HashMap<String, String>();
             
             while((content=br1.readLine())!=null) {
-            	buff1.add(content);
-            	for (i=0;i<mapChunk;i++) {
-            		content=br1.readLine();
+                buff1.add(content);
+                for (i=0;i<mapChunk;i++) {
+                    content=br1.readLine();
                     if(content!=null) {
                         buff1.add(content);
                     }                    
-            	}
-            	//System.out.println("Map chunk is here");
-            	br2 = new BufferedReader(new FileReader(inFile1));
-            	while((fLine=br2.readLine())!=null){
-            		
-            		for (i=0;i<iChunk;i++) {
-            			fLine = br2.readLine();
-            			if(fLine!=null) {
-            				sBuff1.put(fLine.substring(0,8),fLine);
-            			}
-            		}
-            		//System.out.println("chunk t1 is here");
-            		for(String mapLine : buff1) {
-            			if (sBuff1.get(mapLine.substring(0,8))!=null) {
-            			bw1.write(sBuff1.get(mapLine.substring(0,8))+" "+mapLine.substring(9)+"\n");
-            			}
+                }
+                //System.out.println("Map chunk is here");
+                br2 = new BufferedReader(new FileReader(inFile1));
+                while((fLine=br2.readLine())!=null){
+                    
+                    for (i=0;i<iChunk;i++) {
+                        fLine = br2.readLine();
+                        if(fLine!=null) {
+                            sBuff1.put(fLine.substring(0,8),fLine);
+                        }
+                    }
+                    //System.out.println("chunk t1 is here");
+                    for(String mapLine : buff1) {
+                        if (sBuff1.get(mapLine.substring(0,8))!=null) {
+                        bw1.write(sBuff1.get(mapLine.substring(0,8))+" "+mapLine.substring(9)+"\n");
+                        }
 
-            		}
-            		sBuff1.clear();
-            		
-            	}
-            	buff1.clear();
-            	
+                    }
+                    sBuff1.clear();
+                    
+                }
+                buff1.clear();
+                
             }            
             br1.close();
             br2.close();
