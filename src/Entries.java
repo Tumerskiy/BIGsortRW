@@ -44,7 +44,7 @@ public class Entries {
 		sb.append("\n");
 	
 		
-		for (long j=0;j<100000;j++) {
+		for (long j=0;j<1000000;j++) {
 			try {
 				if (random.nextInt(60)>25) {
 					sb = new StringBuilder();
