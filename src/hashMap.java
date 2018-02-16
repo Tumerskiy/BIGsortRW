@@ -122,7 +122,7 @@ public class hashMap {
 
             while (p<number) {
                 c = 0;
-                min = "zzzzzzzzzJohn   Smiths 111222999999999 1455             Maisonneuve West, Montreal,       QC, H3G 1M8";
+                min = "99999999ZZZZZZZZZZZZZZZZZZZZ999999999999999ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
                     
                 minIndex = 0;
                 for (int j = 0;j<sublists;j++) {// find min
