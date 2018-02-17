@@ -46,14 +46,17 @@ public class hashMap {
             
 
             //here is the map landing from 2 files
-            while(((content=br1.readLine())!=null)&&((content1=br2.readLine())!=null)){
-                if (content!=null) buffer.add(content);
+            while(((content=br1.readLine())!=null) || ((content1=br2.readLine())!=null)){
+                if (content!=null) {
+                		buffer.add(content);
+                		numberOfIO+=100;
+                }
                 numberOfIO++; 
                 for (i = 1;i<bs;i++) {
                     content=br1.readLine();
                     if(content!=null) {
                         buffer.add(content);
-                        numberOfIO++;
+                        numberOfIO+=100;
                     }
                 }
                 for (i = 0;i<buffer.size();i++) {
@@ -65,25 +68,28 @@ public class hashMap {
 
                 }
                 buffer.clear();
-                if (content1!=null) buffer.add(content1);
+                if (content1!=null) {
+                		buffer.add(content1);
+                		numberOfIO+=100;
+                }
                 for (i = 1;i<bs;i++) {
                     content=br2.readLine();
                     if(content!=null) {
                         buffer.add(content);
-                        numberOfIO++;
+                        numberOfIO+=100;
                     }
                 }
                 for (i = 0;i<buffer.size();i++) {
-                	if (map.get(buffer.get(i))==null) {
-                		map.put(buffer.get(i), -1);
-                	} else {
-                		map.put(buffer.get(i), map.get(buffer.get(i))-1);
-                	}
+                		if (map.get(buffer.get(i))==null) {
+                			map.put(buffer.get(i), -1);
+                		} else {
+                			map.put(buffer.get(i), map.get(buffer.get(i))-1);
+                		}
                 }
                 buffer.clear();
                 for (String p: map.keySet()){
                     bw1.write(p+" "+map.get(p)+"\n");
-                    numberOfIO++;
+                    numberOfIO+=102;
                 }
                 number+=map.size();
                 map.clear();
@@ -103,7 +109,7 @@ public class hashMap {
 				br1 = new BufferedReader(new FileReader(premap));
                 for (int skip=0; skip<(bs*2)*j;skip++) {
 					br1.readLine();
-                    numberOfIO++;
+					numberOfIO+=102;
                 }
                 indexes.add(br1);
                 compareBuffer[j] = (br1.readLine());
@@ -115,7 +121,6 @@ public class hashMap {
             int minIndex = 0;
             int p = 0;
             int c = 0;
-            heapMaxSize = (long)Runtime.getRuntime().freeMemory()/1000/204;
             //System.out.println(heapMaxSize/1000/200);
             while (p<number) {
                 c = 0;
@@ -140,7 +145,7 @@ public class hashMap {
                         compareBuffer[minIndex] = indexes.get(minIndex).readLine();
                         indexesN[minIndex]++;
                         p++;
-                        numberOfIO++;
+                        numberOfIO+=102;
                     }
                 else {
                     compareBuffer[minIndex] = null;
@@ -154,7 +159,7 @@ public class hashMap {
                                 compareBuffer[j] = indexes.get(j).readLine();
                                 indexesN[j]++;
                                 p++;
-                                numberOfIO++;
+                                numberOfIO+=102;
                             }
                             else {
                                 compareBuffer[j] = null;
@@ -167,7 +172,7 @@ public class hashMap {
                 if (c<0) c=0;
                 bw1.write(min.substring(0,100)+" "+c);
                 bw1.newLine();
-                numberOfIO++;
+                numberOfIO+=102;
             }
             
             bw1.close();
@@ -191,8 +196,8 @@ public class hashMap {
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
             System.out.println("Elapsed time: "+elapsedTime);
-            System.out.println("number of IO: "+numberOfIO);
-            System.out.println("Number of blocks IO: "+(long) Math.ceil(numberOfIO / 40.0));
+//            System.out.println("number of IO: "+numberOfIO);
+            System.out.println("Number of blocks IO: "+(long) Math.ceil(numberOfIO / 40.0/4096));
             System.out.println("total number of tuples: "+number);
             System.out.println("Number of blocks used to store all tuples: "+(int) Math.ceil(number / 40.0));
             number = 0;
