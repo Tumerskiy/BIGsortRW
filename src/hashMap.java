@@ -11,7 +11,7 @@ public class hashMap {
 
     private static File inFile1 = new File("T1.txt");
     private static File inFile2 = new File("T2.txt");
-    private static File premap = new File("premap.txt");
+    //private static File premap = new File("premap.txt");
     private static File result = new File("result.txt");
 
     private static ArrayList<String> buffer;
@@ -39,7 +39,7 @@ public class hashMap {
         try {
             br1 = new BufferedReader(new FileReader(inFile1));
             br2 = new BufferedReader(new FileReader(inFile2));
-            bw1 = new BufferedWriter(new FileWriter(premap));
+            
             String content = null;
             String content1 = null;
             int i=0;
@@ -87,13 +87,18 @@ public class hashMap {
                 		}
                 }
                 buffer.clear();
+                
+                File premap = new File("premap"+sublists+".txt");
+                bw1 = new BufferedWriter(new FileWriter(premap));
                 for (String p: map.keySet()){
                     bw1.write(p+" "+map.get(p)+"\n");
                     numberOfIO+=102;
                 }
                 number+=map.size();
                 map.clear();
+                bw1.close();
                 sublists++;
+                
             }
             //some cleanup
             br1.close();
@@ -106,14 +111,12 @@ public class hashMap {
             ArrayList<BufferedReader> indexes = new ArrayList<>();
 
             for (int j=0;j<sublists;j++) {
+            	File premap = new File(("premap"+j+".txt"));
 				br1 = new BufferedReader(new FileReader(premap));
-                for (int skip=0; skip<(bs*2)*j;skip++) {
-					br1.readLine();
-					numberOfIO+=102;
-                }
                 indexes.add(br1);
                 compareBuffer[j] = (br1.readLine());
                 indexesN[j]= 1;
+                numberOfIO+=102;
             }
             
             bw1 = new BufferedWriter(new FileWriter(result));            
@@ -197,7 +200,7 @@ public class hashMap {
             long elapsedTime = stopTime - startTime;
             System.out.println("Elapsed time: "+elapsedTime);
 //            System.out.println("number of IO: "+numberOfIO);
-            System.out.println("Number of blocks IO: "+(long) Math.ceil(numberOfIO / 40.0/4096));
+            System.out.println("Number of blocks IO: "+(long) Math.ceil(numberOfIO /4096));
             System.out.println("total number of tuples: "+number);
             System.out.println("Number of blocks used to store all tuples: "+(int) Math.ceil(number / 40.0));
             number = 0;
