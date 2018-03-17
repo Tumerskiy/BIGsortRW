@@ -30,7 +30,8 @@ public class hashMap {
         buffer = new ArrayList<>();
         long heapMaxSize = Runtime.getRuntime().maxMemory();
         //System.out.println(heapMaxSize);
-        int bs= (int) ((heapMaxSize/1000)*1.5);
+        int bs= (int) ((heapMaxSize/10000));
+        int bbs = bs*17;
         int sublists = 0;
         int number = 0;
         long numberOfIO = 0;
@@ -47,6 +48,7 @@ public class hashMap {
 
             //here is the map landing from 2 files
             while(((content=br1.readLine())!=null) || ((content1=br2.readLine())!=null)){
+            	
                 if (content!=null) {
                 		buffer.add(content);
                 		numberOfIO+=100;
@@ -64,6 +66,15 @@ public class hashMap {
                 		map.put(buffer.get(i), 1);
                 	} else {
                 		map.put(buffer.get(i), map.get(buffer.get(i))+1);
+                	}
+                	if (map.size()==bbs) {
+                		for (String p: map.keySet()){
+                            bw1.write(p+" "+map.get(p)+"\n");
+                            numberOfIO+=102;
+                        }
+                        number+=map.size();
+                        map.clear();
+                        sublists++;
                 	}
 
                 }
@@ -85,16 +96,27 @@ public class hashMap {
                 		} else {
                 			map.put(buffer.get(i), map.get(buffer.get(i))-1);
                 		}
+                		if (map.size()==bbs) {
+                    		for (String p: map.keySet()){
+                                bw1.write(p+" "+map.get(p)+"\n");
+                                numberOfIO+=102;
+                            }
+                            number+=map.size();
+                            map.clear();
+                            sublists++;
+                    	}
                 }
                 buffer.clear();
-                for (String p: map.keySet()){
-                    bw1.write(p+" "+map.get(p)+"\n");
-                    numberOfIO+=102;
-                }
-                number+=map.size();
-                map.clear();
-                sublists++;
             }
+            
+            for (String p: map.keySet()){
+                bw1.write(p+" "+map.get(p)+"\n");
+                numberOfIO+=102;
+            }
+            number+=map.size();
+            map.clear();
+            sublists++;
+            
             //some cleanup
             br1.close();
             br2.close();
@@ -104,17 +126,22 @@ public class hashMap {
             int[] indexesN = new int[sublists];
             String[] compareBuffer = new String[sublists];
             ArrayList<BufferedReader> indexes = new ArrayList<>();
+            
+            System.out.println(sublists);
+            
 
             for (int j=0;j<sublists;j++) {
 				br1 = new BufferedReader(new FileReader(premap));
-                for (int skip=0; skip<(bs*2)*j;skip++) {
+                for (int skip=0; skip<(bbs)*j;skip++) {
 					br1.readLine();
-					numberOfIO+=102;
+					//numberOfIO+=102;
                 }
                 indexes.add(br1);
                 compareBuffer[j] = (br1.readLine());
                 indexesN[j]= 1;
             }
+            
+            System.out.println("readers!");
             
             bw1 = new BufferedWriter(new FileWriter(result));            
             String min = compareBuffer[0].substring(0,100);
@@ -130,7 +157,7 @@ public class hashMap {
                 for (int j = 0;j<sublists;j++) {// find min
                         if (compareBuffer[j]!=null) {
                                 if (compareBuffer[j].substring(0,100).compareTo(min.substring(0,100))<0) {
-                                    min = compareBuffer[j];
+                                    min = compareBuffer[j].substring(0,100);
                                     minIndex = j;
                                 }
                             }
@@ -141,7 +168,7 @@ public class hashMap {
                 
                 c = Integer.parseInt(compareBuffer[minIndex].substring(101));
                 
-                if (indexesN[minIndex]<bs*2) {
+                if (indexesN[minIndex]<bbs) {
                         compareBuffer[minIndex] = indexes.get(minIndex).readLine();
                         indexesN[minIndex]++;
                         p++;
@@ -155,7 +182,7 @@ public class hashMap {
                     if (compareBuffer[j]!=null && min != null)
                         if (min.equals(compareBuffer[j].substring(0,100))){
                             c += Integer.parseInt(compareBuffer[j].substring(101));
-                            if (indexesN[j]<bs*2) {
+                            if (indexesN[j]<bbs) {
                                 compareBuffer[j] = indexes.get(j).readLine();
                                 indexesN[j]++;
                                 p++;
@@ -188,11 +215,7 @@ public class hashMap {
             sublists = 0;
             br1.close();
             br2.close();
-            
-
-            
-            
-            
+                       
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
             System.out.println("Elapsed time: "+elapsedTime);
@@ -205,11 +228,6 @@ public class hashMap {
             heapMaxSize = 0;
             System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory());
             
-            
-            
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
