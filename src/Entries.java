@@ -43,7 +43,7 @@ public class Entries {
 		
 		for (long j=0;j<50000;j++) {
 			try {
-				if (random.nextInt(60)>25) {
+				if (random.nextInt(60)>10) {
 					sid = 100000 + random.nextInt( 900000);
 				}
 				StringBuilder sb = new StringBuilder();
