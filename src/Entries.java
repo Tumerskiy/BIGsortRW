@@ -16,18 +16,21 @@ public class Entries {
 		
 		Random random  = new Random();
 
-		int n = 100000 + random.nextInt( 900000);
+		int sid = 100000 + random.nextInt( 900000);
+		String[] GPA = new String[9];
+		GPA[0] = "A+  ";
+		GPA[1] = "A   ";
+		GPA[2] = "A-  ";
+		GPA[3] = "B+  ";
+		GPA[4] = "B   ";
+		GPA[5] = "B-  ";
+		GPA[6] = "C   ";
+		GPA[7] = "F   ";
+		GPA[8] = "D   ";
 		
-		
-		String haString = "John   Smiths 111222999999999 1455             Maisonneuve West, Montreal,       QC, H3G 1M8";
-//		sb.append("free memory: " + format.format(freeMemory / 1024) + "\n");
-//		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "\n");
-//		sb.append("max memory: " + format.format(maxMemory / 1024) + "\n");
-//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "\n");
-//		sb.append("read # entries: "+ format.format(maxMemory /200) +"\n");
-//		sb.append("read # blocks: "+ format.format(maxMemory /200/40) +"\n");
-		
-		System.out.println(haString.length());
+		String t1String = "Cody      Rivera    115004072002780Livfu Way,Gewubzi,ON,V3V 5R6                             ";
+		String t2String = "comp62512201804";
+
 		BufferedWriter bw1 = null;
 		BufferedWriter bw2 = null;
 		try {
@@ -37,31 +40,25 @@ public class Entries {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		StringBuilder sb = new StringBuilder();
-		StringBuilder sb2 = new StringBuilder();
-		sb.append(10000000 + random.nextInt( 90000000));
-		sb.append(haString);
-		sb.append("\n");
-	
 		
-		for (long j=0;j<1000000;j++) {
+		for (long j=0;j<50000;j++) {
 			try {
 				if (random.nextInt(60)>25) {
-					sb = new StringBuilder();
-					sb.append(10000000 + random.nextInt(90000000));
-					sb.append(haString);
-					sb.append("\n");
+					sid = 100000 + random.nextInt( 900000);
 				}
+				StringBuilder sb = new StringBuilder();
+				sb.append(sid);
+				sb.append(t1String);
+				sb.append("\n");
 				bw1.write(sb.toString());
-				
-					sb2 = new StringBuilder();
-					sb2.append(10000000 + random.nextInt( 90000000));
-					sb2.append(haString);
+				for (int k=0;k<100;k++) {
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append(sid);
+					sb2.append(t2String);
+					sb2.append(GPA[random.nextInt(8)]);
 					sb2.append("\n");
-					if (random.nextInt(30)>25){
-						sb2=sb;
-					}
-				bw2.write(sb2.toString());
+					bw2.write(sb2.toString());
+				}
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
