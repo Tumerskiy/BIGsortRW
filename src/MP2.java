@@ -101,7 +101,43 @@ public class MP2 {
             bw1.close();
             long time = System.currentTimeMillis()-startTime;
             System.out.println("time:"+ time +" sublists1:"+sublists1+" sublists2:"+sublists2+" number1:"+number1+" number2:"+number2+" IO:"+numberOfIO );
-
+            System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory());
+            
+         // right join T1 T2 GPA
+            
+            
+            
+            
+            int[] indexesN1 = new int[sublists1];
+            String[] compareBuffer1 = new String[sublists2];
+            ArrayList<BufferedReader> indexes1 = new ArrayList<>();
+            
+            int[] indexesN2 = new int[sublists2];
+            String[] compareBuffer2 = new String[sublists2];
+            ArrayList<BufferedReader> indexes2 = new ArrayList<>();
+            
+            for (int j=0;j<sublists1;j++) {
+    			br1 = new BufferedReader(new FileReader(premap1));
+                for (int skip=0; skip<(bbs)*j;skip++) {
+    				br1.readLine();
+                }
+                indexes1.add(br1);
+                compareBuffer1[j] = (br1.readLine());
+                indexesN1[j]= 1;
+            }
+            
+            for (int j=0;j<sublists2;j++) {
+    			br1 = new BufferedReader(new FileReader(premap2));
+                for (int skip=0; skip<(bbs*3.7)*j;skip++) {
+    				br1.readLine();
+                }
+                indexes2.add(br1);
+                compareBuffer2[j] = (br1.readLine());
+                indexesN2[j]= 1;
+            }
+            System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory());
+            time = System.currentTimeMillis()-startTime;
+            System.out.println("time:"+ time +" sublists1:"+sublists1+" sublists2:"+sublists2+" number1:"+number1+" number2:"+number2+" IO:"+numberOfIO );
 	} catch (Exception e) {
         e.printStackTrace();
     }
@@ -119,5 +155,6 @@ public class MP2 {
             e2.printStackTrace();
         }
     }
+        
 	}
 }
