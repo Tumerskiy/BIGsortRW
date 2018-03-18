@@ -54,7 +54,7 @@ public class MP2 {
             while((content=br1.readLine())!=null){
                 if (set.size() == bbs1) {
                 	for(String p: set) {
-                		bw1.write(p);
+                		bw1.write(p+"\n");
                         numberOfIO+=100;                        
                 	}
                 	number1+=bbs1;
@@ -67,7 +67,7 @@ public class MP2 {
                 }
             }
             for(String p: set) {
-        		bw1.write(p);
+        		bw1.write(p+"\n");
                 numberOfIO+=100;
                 
         	}
@@ -77,7 +77,7 @@ public class MP2 {
             while((content1=br2.readLine())!=null){
             	if (set.size() == bbs2) {
                 	for(String p: set) {
-                		bw2.write(p);
+                		bw2.write(p+"\n");
                         numberOfIO+=27;
                 	}
                 	number2+=bbs2;
@@ -90,7 +90,7 @@ public class MP2 {
                 }
             }
             for(String p: set) {
-        		bw2.write(p);
+        		bw2.write(p+"\n");
                 numberOfIO+=27;
         	}
             number2+=bbs2;
