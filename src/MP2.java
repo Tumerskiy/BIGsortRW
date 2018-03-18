@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Collections; 
 import java.nio.charset.Charset;
+import java.util.TreeSet;
 //
 
 public class MP2 {
@@ -18,8 +19,9 @@ public class MP2 {
 	private static File result = new File("result.txt");
 
 	private static ArrayList<String> buffer;
-
-	private static TreeMap<String, Integer> map = new TreeMap<String, Integer>();	 
+	private static TreeSet<String> set = new TreeSet<String>();
+	private static TreeMap<String, Integer> map = new TreeMap<String, Integer>();
+	
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
         BufferedReader br1 = null;
@@ -31,7 +33,8 @@ public class MP2 {
         long heapMaxSize = Runtime.getRuntime().maxMemory();
         //System.out.println(heapMaxSize);
         int bs= (int) ((heapMaxSize/10000));
-        int bbs = bs*15;
+        int bbs1 = bs*15;
+        int bbs2 = bs*55;
         int sublists1 = 0;
         int sublists2 = 0;
         int number1 = 0;
@@ -47,52 +50,52 @@ public class MP2 {
             
             String content = null;
             String content1 = null;
-            int i=0;
            
             while((content=br1.readLine())!=null){
-                if (content!=null) {
-                		buffer.add(content);
+                if (set.size() == bbs1) {
+                	for(String p: set) {
+                		bw1.write(p);
+                        numberOfIO+=100;                        
+                	}
+                	number1+=bbs1;
+                	sublists1++;
+                	set.clear();
+                }
+            	if (content!=null) {
+                	set.add(content);
                 		numberOfIO+=100;
                 }
-                for (i = 1;i<bbs;i++) {
-                    content=br1.readLine();
-                    if(content!=null) {
-                        buffer.add(content);
-                        numberOfIO+=100;
-                    }
-                }
-                Collections.sort(buffer);
-                //buffer.sort(String::compareToIgnoreCase);
-                for (String line: buffer) {
-                	bw1.write(line+"\n");
-                    numberOfIO+=100;
-                    number1+=buffer.size();
-                }
-                sublists1++;
-                buffer.clear();
             }
+            for(String p: set) {
+        		bw1.write(p);
+                numberOfIO+=100;
+                
+        	}
+            number1+=bbs1;
+            sublists1++;
+            set.clear();
             while((content1=br2.readLine())!=null){
-                if (content1!=null) {
-                		buffer.add(content1);
+            	if (set.size() == bbs2) {
+                	for(String p: set) {
+                		bw2.write(p);
+                        numberOfIO+=27;
+                	}
+                	number2+=bbs2;
+                	sublists2++;
+                	set.clear();
+                }
+            	if (content1!=null) {
+                	set.add(content1);
                 		numberOfIO+=27;
                 }
-                for (i = 1;i<bbs*3.7;i++) {
-                    content1=br2.readLine();
-                    if(content1!=null) {
-                        buffer.add(content1);
-                        numberOfIO+=27;
-                    }
-                }
-                Collections.sort(buffer);
-                //buffer.sort(String::compareToIgnoreCase);
-                for (String line: buffer) {
-                	bw2.write(line+"\n");
-                    numberOfIO+=27;
-                    number2+=buffer.size(); 
-                }
-                sublists2++;
-                buffer.clear();
             }
+            for(String p: set) {
+        		bw2.write(p);
+                numberOfIO+=27;
+        	}
+            number2+=bbs2;
+            sublists2++;
+            set.clear();
             
             
             //some cleanup
