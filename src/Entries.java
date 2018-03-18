@@ -29,7 +29,7 @@ public class Entries {
 		GPA[8] = "D   ";
 		
 		String t1String = "Cody      Rivera    115004072002780Livfu Way,Gewubzi,ON,V3V 5R6                             ";
-		String t2String = "comp62512201804";
+		//String t2String = "comp62512201804";
 
 		BufferedWriter bw1 = null;
 		BufferedWriter bw2 = null;
@@ -54,7 +54,9 @@ public class Entries {
 				for (int k=0;k<100;k++) {
 					StringBuilder sb2 = new StringBuilder();
 					sb2.append(sid);
-					sb2.append(t2String);
+					sb2.append("comp60");
+					sb2.append(10+random.nextInt(10));
+					sb2.append("2201804");
 					sb2.append(GPA[random.nextInt(8)]);
 					sb2.append("\n");
 					bw2.write(sb2.toString());
