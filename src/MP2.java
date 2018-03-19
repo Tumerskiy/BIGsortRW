@@ -22,43 +22,43 @@ public class MP2 {
 	public static double convertGrade(String grade) {
 		switch (grade.trim()) {
 		case "A+":
-			System.out.println("A+");
+//			System.out.println("A+");
 			return 4.0;
 		case "A":
-			System.out.println("A");
+//			System.out.println("A");
 			return 4.0;
 		case "A-":
-			System.out.println("A-");
+//			System.out.println("A-");
 			return 3.7;
 		case "B+":
-			System.out.println("B+");
+//			System.out.println("B+");
 			return 3.3;
 		case "B":
-			System.out.println("B");
+//			System.out.println("B");
 			return 3.0;
 		case "B-":
-			System.out.println("B-");
+//			System.out.println("B-");
 			return 2.7;
 		case "C+":
-			System.out.println("C+");
+//			System.out.println("C+");
 			return 2.3;
 		case "C":
-			System.out.println("C");
+//			System.out.println("C");
 			return 2.0;
 		case "C-":
-			System.out.println("C-");
+//			System.out.println("C-");
 			return 1.7;
 		case "D+":
-			System.out.println("D+");
+//			System.out.println("D+");
 			return 1.3;
 		case "D":
-			System.out.println("D");
+//			System.out.println("D");
 			return 1.0;
 		case "D-":
-			System.out.println("D-");
+//			System.out.println("D-");
 			return 0.7;
 		case "F":
-			System.out.println("F");
+//			System.out.println("F");
 			return 0;
 
 		default:
@@ -258,7 +258,7 @@ public class MP2 {
 //            		System.out.println(min2.substring(0,8));
                     
             		if (min1.substring(0,8).equals(min2.substring(0,8))) {// stud id is the same
-            				System.out.println("the same");
+//            				System.out.println("the same");
                     		changeT2 = true;
                     		changeT1 = true;
                     		gpa = 0;
@@ -294,9 +294,9 @@ public class MP2 {
                                 		j--;
                                 	}
                         	}
-                        gpa = (double)(points/c);
-                        System.out.println(points+" / "+ c + " = "+ gpa);
-                        bw2.write(min1.substring(0,8) + gpa);
+                        gpa = (double)Math.round((points/c)*10.0)/10.0;
+//                        System.out.println(points+" / "+ c + " = "+ gpa);
+                        bw2.write(min1.substring(0,8) +" "+ gpa);
                         bw2.newLine();
                     } else { // if not the same
                     		if (min2.substring(0,8).compareTo(min1.substring(0,8))<0) { // if min2 is smaller then min1 needs to change
