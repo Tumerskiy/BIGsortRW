@@ -47,7 +47,8 @@ public class Entries {
 				for (int k=0;k<100;k++) {
 					StringBuilder sb2 = new StringBuilder();
 					sb2.append(sid);
-					sb2.append("comp6521");
+					sb2.append("comp652");
+					sb2.append(random.nextInt(9));
 					sb2.append("2");
 					sb2.append("201804");
 					sb2.append(GPA[random.nextInt(8)]);
