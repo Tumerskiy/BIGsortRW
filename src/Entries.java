@@ -1,22 +1,15 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.Random;
 import java.io.BufferedWriter;
 public class Entries {
 	public static void main(String[] args) {
-		Runtime runtime = Runtime.getRuntime();
-
-		NumberFormat format = NumberFormat.getInstance();
 
 		
-		long maxMemory = runtime.maxMemory();
-		long allocatedMemory = runtime.totalMemory();
-		long freeMemory = runtime.freeMemory();
 		
 		Random random  = new Random();
 
-		int sid = 100000 + random.nextInt( 900000);
+		int sid = 10000000 + random.nextInt( 90000000);
 		String[] GPA = new String[9];
 		GPA[0] = "A+  ";
 		GPA[1] = "A   ";
@@ -44,7 +37,7 @@ public class Entries {
 		for (long j=0;j<50000;j++) {
 			try {
 				if (random.nextInt(60)>10) {
-					sid = 100000 + random.nextInt( 900000);
+					sid = 10000000 + random.nextInt( 90000000);
 				}
 				StringBuilder sb = new StringBuilder();
 				sb.append(sid);
@@ -54,9 +47,9 @@ public class Entries {
 				for (int k=0;k<100;k++) {
 					StringBuilder sb2 = new StringBuilder();
 					sb2.append(sid);
-					sb2.append("comp60");
-					sb2.append(10+random.nextInt(10));
-					sb2.append("2201804");
+					sb2.append("comp6521");
+					sb2.append("2");
+					sb2.append("201804");
 					sb2.append(GPA[random.nextInt(8)]);
 					sb2.append("\n");
 					bw2.write(sb2.toString());
