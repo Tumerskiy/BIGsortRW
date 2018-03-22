@@ -7,6 +7,8 @@ import java.io.Writer;
 import java.io.BufferedReader;
 import java.io.BufferedWriter; 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class MP2 {
@@ -16,7 +18,7 @@ public class MP2 {
 //	private static File premap2 = new File("premap2.txt");
 	private static File result = new File("result.txt");
 	private static File gpaResult = new File("gpa.txt");
-
+	private static TreeMap<String,BufferedReader> readers = new TreeMap<String,BufferedReader>();
 	private static ArrayList<String> buffer;
 	private static TreeSet<String> set = new TreeSet<String>();
 	
@@ -241,19 +243,70 @@ public class MP2 {
 		}
 	}
 	
+	
+	
+	public static void putter(String toput, BufferedReader br) {
+		String newput = null;
+		try {
+		if (readers.get(toput)==null) {
+			readers.put(toput, br);
+		} else if ( (newput=br.readLine()) != null){
+			putter(newput, br);
+			
+		}else {
+			br.close();
+		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static String multimergesorter(ArrayList<String> files) {
+		String result = files.get(0).substring(0,8)+".txt";
+		try {
+		BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File(result)));
+		
+		for(String file: files) {
+			
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				String toput = br.readLine();
+				putter(toput,br);
+				
+		}	
+		while(readers.size()>0) {
+			String in = readers.firstKey();
+			bw1.write(in+"\n");
+			String toput = null;
+			if ((toput=readers.get(in).readLine())!=null) {
+				putter(toput,readers.get(in));
+			}
+		    readers.remove(in);
+		}
+		bw1.close();
+		} catch (Exception e2) {
+            e2.printStackTrace();
+        }
+		
+		
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
         BufferedReader br1 = null;
         BufferedReader br2 = null;
         BufferedWriter bw1 = null;
         BufferedWriter bw2 = null;
+        ArrayList<String> files1 = new ArrayList<String>();
+        ArrayList<String> files2 = new ArrayList<String>();
         
         buffer = new ArrayList<>();
         long heapMaxSize = Runtime.getRuntime().maxMemory();
         //System.out.println(heapMaxSize);
         int bs= (int) ((heapMaxSize/10000));
         int bbs1 = bs*15;
-        int bbs2 = bs*55;
+        int bbs2 = bs*50;
         int sublists1 = 0;
         int sublists2 = 0;
         int number1 = 0;
@@ -283,6 +336,7 @@ public class MP2 {
                 	set.clear();
                 	bw1.close();
                 	filenumT1++;
+                	files1.add("premapT1_"+filenumT1+".txt");
                 }
             	if (content!=null) {
                 	set.add(content);
@@ -298,12 +352,13 @@ public class MP2 {
             number1+=bbs1;
             sublists1++;
             bw1.close();
+            files1.add("premapT1_"+filenumT1+".txt");
             set.clear();
             while((content1=br2.readLine())!=null){
             	if (set.size() == bbs2) {
             		bw1 = new BufferedWriter(new FileWriter(new File("premapT2_"+filenumT2+".txt")));
                 	for(String p: set) {
-                		bw2.write(p+"\n");
+                		bw1.write(p+"\n");
                         numberOfIO+=27;
                 	}
                 	number2+=bbs2;
@@ -311,6 +366,7 @@ public class MP2 {
                 	set.clear();
                 	bw1.close();
                 	filenumT2++;
+                	files2.add("premapT2_"+filenumT2+".txt");
                 }
             	if (content1!=null) {
                 	set.add(content1);
@@ -319,12 +375,13 @@ public class MP2 {
             }
             bw1 = new BufferedWriter(new FileWriter(new File("premapT2_"+filenumT2+".txt")));
             for(String p: set) {
-        		bw2.write(p+"\n");
+        		bw1.write(p+"\n");
                 numberOfIO+=27;
         	}
             number2+=bbs2;
             sublists2++;
             bw1.close();
+            files2.add("premapT2_"+filenumT2+".txt");
             set.clear();
             
             
@@ -338,8 +395,11 @@ public class MP2 {
             
             // multi-merge
             
+            String sortedT1 = multimergesorter(files1);
+            String sortedT2 = multimergesorter(files2);
             
-            numberOfIO = multiMergw(sublists1, sublists2, bbs1, bbs2, premap1, premap2, number2, numberOfIO);
+            System.out.println(sortedT1+" "+sortedT2);
+            //numberOfIO = multiMergw(sublists1, sublists2, bbs1, bbs2, premap1, premap2, number2, numberOfIO);
             
             time = System.currentTimeMillis()-startTime;
             System.out.println("time:"+ time +" sublists1:"+sublists1+" sublists2:"+sublists2+" number1:"+number1+" number2:"+number2+" IO:"+numberOfIO );
