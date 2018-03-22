@@ -12,8 +12,8 @@ import java.util.TreeSet;
 public class MP2 {
 	private static File inFile1 = new File("T1.txt");
 	private static File inFile2 = new File("T2.txt");
-	private static File premap1 = new File("premap1.txt");
-	private static File premap2 = new File("premap2.txt");
+//	private static File premap1 = new File("premap1.txt");
+//	private static File premap2 = new File("premap2.txt");
 	private static File result = new File("result.txt");
 	private static File gpaResult = new File("gpa.txt");
 
@@ -264,14 +264,16 @@ public class MP2 {
         try {
             br1 = new BufferedReader(new FileReader(inFile1));
             br2 = new BufferedReader(new FileReader(inFile2));
-            bw1 = new BufferedWriter(new FileWriter(premap1));
-            bw2 = new BufferedWriter(new FileWriter(premap2));
+            int filenumT1 = 0;
+            int filenumT2 = 0;
+            //bw2 = new BufferedWriter(new FileWriter(premap2));
             
             String content = null;
             String content1 = null;
            
             while((content=br1.readLine())!=null){
                 if (set.size() == bbs1) {
+                	bw1 = new BufferedWriter(new FileWriter(new File("premapT1_"+filenumT1+".txt")));
                 	for(String p: set) {
                 		bw1.write(p+"\n");
                         numberOfIO+=100;                        
@@ -279,12 +281,15 @@ public class MP2 {
                 	number1+=bbs1;
                 	sublists1++;
                 	set.clear();
+                	bw1.close();
+                	filenumT1++;
                 }
             	if (content!=null) {
                 	set.add(content);
                 		numberOfIO+=100;
                 }
             }
+            bw1 = new BufferedWriter(new FileWriter(new File("premapT1_"+filenumT1+".txt")));
             for(String p: set) {
         		bw1.write(p+"\n");
                 numberOfIO+=100;
@@ -292,9 +297,11 @@ public class MP2 {
         	}
             number1+=bbs1;
             sublists1++;
+            bw1.close();
             set.clear();
             while((content1=br2.readLine())!=null){
             	if (set.size() == bbs2) {
+            		bw1 = new BufferedWriter(new FileWriter(new File("premapT2_"+filenumT2+".txt")));
                 	for(String p: set) {
                 		bw2.write(p+"\n");
                         numberOfIO+=27;
@@ -302,26 +309,30 @@ public class MP2 {
                 	number2+=bbs2;
                 	sublists2++;
                 	set.clear();
+                	bw1.close();
+                	filenumT2++;
                 }
             	if (content1!=null) {
                 	set.add(content1);
                 		numberOfIO+=27;
                 }
             }
+            bw1 = new BufferedWriter(new FileWriter(new File("premapT2_"+filenumT2+".txt")));
             for(String p: set) {
         		bw2.write(p+"\n");
                 numberOfIO+=27;
         	}
             number2+=bbs2;
             sublists2++;
+            bw1.close();
             set.clear();
             
             
             //some cleanup
             br1.close();
             br2.close();
-            bw1.close();
-            bw2.close();
+//            bw1.close();
+//            bw2.close();
             long time = System.currentTimeMillis()-startTime;
             System.out.println("time:"+ time +" sublists1:"+sublists1+" sublists2:"+sublists2+" number1:"+number1+" number2:"+number2+" IO:"+numberOfIO );
             
