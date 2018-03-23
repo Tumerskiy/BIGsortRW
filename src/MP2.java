@@ -209,8 +209,9 @@ public class MP2 {
                 	sublists1++;
                 	set.clear();
                 	bw1.close();
-                	filenumT1++;
+                	
                 	files1.add("premapT1_"+filenumT1+".txt");
+                	filenumT1++;
                 }
                 if (content!=null) {
                 		set.add(content);
@@ -239,8 +240,9 @@ public class MP2 {
                 	sublists2++;
                 	set.clear();
                 	bw1.close();
-                	filenumT2++;
+                	
                 	files2.add("premapT2_"+filenumT2+".txt");
+                	filenumT2++;
                 }
             	if (content1!=null) {
                 	set.add(content1);
