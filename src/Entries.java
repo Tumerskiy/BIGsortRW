@@ -44,13 +44,26 @@ public class Entries {
 				sb.append(t1String);
 				sb.append("\n");
 				bw1.write(sb.toString());
-				for (int k=0;k<100;k++) {
+				for (int k=0;k<10;k++) {
 					StringBuilder sb2 = new StringBuilder();
 					sb2.append(sid);
-					sb2.append("comp652");
-					sb2.append(random.nextInt(9));
+					sb2.append("comp650");
+					sb2.append(k);
 					sb2.append("2");
-					sb2.append("201804");
+					sb2.append("2018");
+					sb2.append("04");
+					sb2.append(GPA[random.nextInt(8)]);
+					sb2.append("\n");
+					bw2.write(sb2.toString());
+				}
+				for (int k=10;k<100;k++) {
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append(sid);
+					sb2.append("comp65");
+					sb2.append(k);
+					sb2.append("2");
+					sb2.append("2018");
+					sb2.append("04");
 					sb2.append(GPA[random.nextInt(8)]);
 					sb2.append("\n");
 					bw2.write(sb2.toString());
