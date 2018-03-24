@@ -34,11 +34,12 @@ public class Entries {
 			e.printStackTrace();
 		}
 		
-		for (long j=0;j<50000;j++) {
+		for (int j=0;j<50000;j++) {
 			try {
-				if (random.nextInt(60)>10) {
-					sid = 10000000 + random.nextInt( 90000000);
-				}
+//				if (random.nextInt(60)>10) {
+//					sid = 10000000 + random.nextInt( 90000000);
+//				}
+				sid = 10000000 + j;
 				StringBuilder sb = new StringBuilder();
 				sb.append(sid);
 				sb.append(t1String);
@@ -52,7 +53,7 @@ public class Entries {
 					sb2.append("2");
 					sb2.append("2018");
 					sb2.append("04");
-					sb2.append(GPA[random.nextInt(8)]);
+					sb2.append(GPA[0]);
 					sb2.append("\n");
 					bw2.write(sb2.toString());
 				}
@@ -64,7 +65,7 @@ public class Entries {
 					sb2.append("2");
 					sb2.append("2018");
 					sb2.append("04");
-					sb2.append(GPA[random.nextInt(8)]);
+					sb2.append(GPA[0]);
 					sb2.append("\n");
 					bw2.write(sb2.toString());
 				}

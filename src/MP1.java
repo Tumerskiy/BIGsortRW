@@ -100,7 +100,7 @@ public class MP1 {
 //				points[i] = 0;
 //			}
 //			br1 = new BufferedReader(new FileReader(inFile2));
-//			bw1 = new BufferedWriter(new FileWriter(result));
+			bw1 = new BufferedWriter(new FileWriter(result));
 ////			while((content=br1.readLine())!=null){
 //			for (int j = 0; j < 5000; j++) {
 ////				System.out.println(j);

@@ -22,7 +22,7 @@ public class MP2 {
 		switch (grade.trim()) {
 		case "A+":
 			//			System.out.println("A+");
-			return 4.0;
+			return 4.3;
 		case "A":
 			//			System.out.println("A");
 			return 4.0;
@@ -64,11 +64,68 @@ public class MP2 {
 			return 0;
 		}
 	}
+	
+	public static void loopLoopMerge(String sortedT1) {
+		int bs;
+		String content;
+		BufferedReader br1 = null;
+		BufferedWriter bw1 = null;
+		BufferedWriter bw2 = null;
+		bs = (int) (Runtime.getRuntime().freeMemory()/230);
+		
+		ArrayList<String> t1 = new ArrayList<>();
+		try {
+			bw1 = new BufferedWriter(new FileWriter(new File("loopLoopResult")));
+			bw2 = new BufferedWriter(new FileWriter(new File("loopLoopGPA")));
+			br1 = new BufferedReader(new FileReader(new File(sortedT1)));
+			while((content=br1.readLine())!=null){
+				System.out.println(bs);
+				for (int i = 0;i<bs;i++) {
+					if (content != null) t1.add(content);
+					content = br1.readLine();
+					
+				}
+				double[] credits = new double[t1.size()];
+				double[] points = new double[t1.size()];
+				for (int i = 0; i < t1.size(); i++) {
+					credits[i] = 0;
+					points[i] = 0;
+				}
+				
+				BufferedReader br2 = new BufferedReader(new FileReader(inFile2));
+				while((content=br2.readLine())!=null){
+					
+					for (int i = 0; i< t1.size(); i++) {
+						if (content.substring(0, 8).equals(t1.get(i).substring(0, 8))) {
+							credits[i] += Double.parseDouble(content.substring(21, 23));
+							points[i] += convertGrade(content.substring(23)) * Double.parseDouble(content.substring(21, 23));
+							bw1.write(t1.get(i)+content.substring(8));
+							bw1.newLine();
+						}
+					}
+
+				}
+				br2.close();
+				for (int i = 0; i< t1.size(); i++) {
+					bw2.write(t1.get(i).substring(0, 8)+" "+(double)Math.round((points[i]/credits[i])*10.0)/10.0);
+					bw2.newLine();
+				}
+				t1.clear();
+			}
+			br1.close();
+			bw1.close();
+			bw2.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public static void joinFiles(String file1, String file2) {
 		try {
-			BufferedReader br1 = new BufferedReader(new FileReader(new File("premapT1.txt")));
-			BufferedReader br2 = new BufferedReader(new FileReader(new File("premapT2.txt")));
+			BufferedReader br1 = new BufferedReader(new FileReader(new File(file1)));
+			BufferedReader br2 = new BufferedReader(new FileReader(new File(file2)));
 			BufferedWriter bw = new BufferedWriter(new FileWriter(result));
 			BufferedWriter bwGPA = new BufferedWriter(new FileWriter(gpaResult));
 			String content1 = br1.readLine();
@@ -87,10 +144,12 @@ public class MP2 {
 					points += convertGrade(content2.substring(23)) * Double.parseDouble(content2.substring(21,23));
 					// write file content1 + content2
 					bw.write(content1+content2.substring(8));
-					numberOfIO+=tuppleSize1+8;
+					numberOfIO+=tuppleSize1+tuppleSize2-8;
 					bw.newLine();
+					
 					content2 = br2.readLine();
 					numberOfIO+=tuppleSize2;
+					
 					if (content2 == null) {
 						bwGPA.write(content1.substring(0,8) + " "+(double)Math.round((points/c)*10.0)/10.0);
 						numberOfIO+=12;
@@ -98,7 +157,6 @@ public class MP2 {
 					}
 				} else {
 					if (content2.substring(0,8).compareTo(content1.substring(0,8))<0) { // if content2 is smaller than content1
-						//                			System.out.println("content2 change");
 						if (c != 0) {
 							bwGPA.write(content2.substring(0,8) + " "+(double)Math.round((points/c)*10.0)/10.0);
 							numberOfIO+=12;
@@ -108,7 +166,6 @@ public class MP2 {
 						numberOfIO+=tuppleSize2;
 
 					} else { // content1 is smaller than content2
-						//                			System.out.println("content1 change");
 						if (c != 0) {
 							bwGPA.write(content1.substring(0,8) + " "+(double)Math.round((points/c)*10.0)/10.0);
 							numberOfIO+=12;
@@ -280,7 +337,12 @@ public class MP2 {
 
 			long joinTime = System.currentTimeMillis()-startTime;
 			System.out.println("Join phase: time:"+ joinTime +" IO:"+numberOfIO/4096 );
-
+			
+			//loop-loop
+			long finalLoopTime = System.currentTimeMillis();
+			loopLoopMerge( sortedT1);
+			
+			System.out.println("Loop-Loop phase: time:"+ (loopLoopMergeTime + (System.currentTimeMillis()-finalLoopTime))+" IO:"+numberOfIO/4096 );
 
 		} catch (Exception e) {
 			e.printStackTrace();
