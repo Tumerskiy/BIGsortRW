@@ -65,7 +65,8 @@ public class MP2 {
 		}
 	}
 	
-	public static void loopLoopMerge(String sortedT1) {
+	public static long loopLoopMerge(String sortedT1) {
+		long num = 0;
 		int bs;
 		String content;
 		BufferedReader br1 = null;
@@ -79,10 +80,12 @@ public class MP2 {
 			bw2 = new BufferedWriter(new FileWriter(new File("loopLoopGPA")));
 			br1 = new BufferedReader(new FileReader(new File(sortedT1)));
 			while((content=br1.readLine())!=null){
+				num +=100;
 				System.out.println(bs);
 				for (int i = 0;i<bs;i++) {
 					if (content != null) t1.add(content);
 					content = br1.readLine();
+					num +=100;
 					
 				}
 				double[] credits = new double[t1.size()];
@@ -94,12 +97,13 @@ public class MP2 {
 				
 				BufferedReader br2 = new BufferedReader(new FileReader(inFile2));
 				while((content=br2.readLine())!=null){
-					
+					num +=27;
 					for (int i = 0; i< t1.size(); i++) {
 						if (content.substring(0, 8).equals(t1.get(i).substring(0, 8))) {
 							credits[i] += Double.parseDouble(content.substring(21, 23));
 							points[i] += convertGrade(content.substring(23)) * Double.parseDouble(content.substring(21, 23));
 							bw1.write(t1.get(i)+content.substring(8));
+							num +=100+27-8;
 							bw1.newLine();
 						}
 					}
@@ -108,6 +112,7 @@ public class MP2 {
 				br2.close();
 				for (int i = 0; i< t1.size(); i++) {
 					bw2.write(t1.get(i).substring(0, 8)+" "+(double)Math.round((points[i]/credits[i])*10.0)/10.0);
+					num +=13;
 					bw2.newLine();
 				}
 				t1.clear();
@@ -119,6 +124,7 @@ public class MP2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return num;
 		
 	}
 
@@ -252,7 +258,7 @@ public class MP2 {
 
 		long heapMaxSize = Runtime.getRuntime().maxMemory();
 		//System.out.println(heapMaxSize);
-		int bs= (int) ((heapMaxSize/10000));
+		int bs= (int) ((heapMaxSize/10000)) - 400;
 		int bbs1 = bs*15;
 		int bbs2 = bs*50;
 
@@ -340,8 +346,7 @@ public class MP2 {
 			
 			//loop-loop
 			long finalLoopTime = System.currentTimeMillis();
-			loopLoopMerge( sortedT1);
-			
+			numberOfIO+=loopLoopMerge( sortedT1);
 			System.out.println("Loop-Loop phase: time:"+ (loopLoopMergeTime + (System.currentTimeMillis()-finalLoopTime))+" IO:"+numberOfIO/4096 );
 
 		} catch (Exception e) {
