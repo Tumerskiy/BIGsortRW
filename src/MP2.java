@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter; 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -213,12 +214,31 @@ public class MP2 {
 	}
 
 	public static String multimergesorter(ArrayList<String> files, int tuppleSize) {
-		String result = files.get(0).substring(0,8)+".txt";
+		Random random  = new Random();
+		int id = random.nextInt(100);
+		String result = files.get(0).substring(0,8)+"_"+id;
+		int subSort = (int) Runtime.getRuntime().maxMemory()/33000;
+		ArrayList<String> subFiles = new ArrayList<>();
+		int iteration = 1;
+		if (files.size()>subSort) {
+			iteration = (int) Math.ceil((double) files.size()/(double) subSort);
+		}
+		
+		System.out.println(files.size()+"_"+subSort+"_"+iteration);
 		try {
-			BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File(result)));
-
-			for(String file: files) {
-
+			
+			for (int j=0;j<iteration;j++) {
+			int subSize = subSort;
+			if (j==iteration-1) {
+				subSize = files.size()%subSort;
+			}
+			System.out.println(subSize);
+			
+			String fileName = result+"_"+j+".txt";
+			BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File(fileName)));
+			for (int i=0;i<subSize;i++) {
+			//for(String file: files) {
+				String file = files.get(i);
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				String toput = br.readLine();
 				numberOfIO+= tuppleSize;
@@ -239,12 +259,18 @@ public class MP2 {
 				readers.remove(in);
 			}
 			bw1.close();
+			subFiles.add(fileName);
+			}
+			
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
-
-
-		return result;
+		
+		System.out.println(subFiles.size());
+		if(subFiles.size()==1) {
+			return subFiles.get(0);
+		} 
+		return multimergesorter(subFiles, tuppleSize);
 	}
 
 	public static void main(String[] args) {
@@ -345,9 +371,9 @@ public class MP2 {
 			System.out.println("Join phase: time:"+ joinTime +" IO:"+numberOfIO/4096 );
 			
 			//loop-loop
-			long finalLoopTime = System.currentTimeMillis();
-			numberOfIO+=loopLoopMerge( sortedT1);
-			System.out.println("Loop-Loop phase: time:"+ (loopLoopMergeTime + (System.currentTimeMillis()-finalLoopTime))+" IO:"+numberOfIO/4096 );
+			//long finalLoopTime = System.currentTimeMillis();
+			//numberOfIO+=loopLoopMerge( sortedT1);
+		//	System.out.println("Loop-Loop phase: time:"+ (loopLoopMergeTime + (System.currentTimeMillis()-finalLoopTime))+" IO:"+numberOfIO/4096 );
 
 		} catch (Exception e) {
 			e.printStackTrace();
