@@ -236,7 +236,7 @@ public class MP2 {
 			
 			String fileName = result+"_"+j+".txt";
 			BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File(fileName)));
-			for (int i=0;i<subSize;i++) {
+			for (int i=j*subSort;i<(j*subSort+subSize);i++) {
 			//for(String file: files) {
 				String file = files.get(i);
 				BufferedReader br = new BufferedReader(new FileReader(file));
