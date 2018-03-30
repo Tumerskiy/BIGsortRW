@@ -217,14 +217,14 @@ public class MP2 {
 		Random random  = new Random();
 		int id = random.nextInt(100);
 		String result = files.get(0).substring(0,8)+"_"+id;
-		int subSort = (int) Runtime.getRuntime().maxMemory()/33000;
+		int subSort = (int) Runtime.getRuntime().maxMemory()/50000;
 		ArrayList<String> subFiles = new ArrayList<>();
 		int iteration = 1;
 		if (files.size()>subSort) {
 			iteration = (int) Math.ceil((double) files.size()/(double) subSort);
 		}
 		
-		System.out.println(files.size()+"_"+subSort+"_"+iteration);
+		//System.out.println(files.size()+"_"+subSort+"_"+iteration);
 		try {
 			
 			for (int j=0;j<iteration;j++) {
@@ -232,7 +232,7 @@ public class MP2 {
 			if (j==iteration-1) {
 				subSize = files.size()%subSort;
 			}
-			System.out.println(subSize);
+		//	System.out.println(subSize);
 			
 			String fileName = result+"_"+j+".txt";
 			BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File(fileName)));
@@ -266,7 +266,7 @@ public class MP2 {
 			e2.printStackTrace();
 		}
 		
-		System.out.println(subFiles.size());
+		//System.out.println(subFiles.size());
 		if(subFiles.size()==1) {
 			return subFiles.get(0);
 		} 
@@ -284,9 +284,9 @@ public class MP2 {
 
 		long heapMaxSize = Runtime.getRuntime().maxMemory();
 		//System.out.println(heapMaxSize);
-		int bs= (int) ((heapMaxSize/10000)) - 400;
-		int bbs1 = bs*15;
-		int bbs2 = bs*50;
+		int bs= (int) ((heapMaxSize/10000));
+		int bbs1 = bs*10;
+		int bbs2 = bs*10;
 
 		try {
 			br1 = new BufferedReader(new FileReader(inFile1));
