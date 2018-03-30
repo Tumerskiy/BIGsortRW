@@ -10,7 +10,7 @@ public class MP1 {
 	private static File inFile2 = new File("T2.txt");
 	private static File result = new File("result.txt");
 	private static File gpaResult = new File("gpa.txt");
-	
+	 
 	public static double convertGrade(String grade) {
 		switch (grade.trim()) {
 		case "A+":
