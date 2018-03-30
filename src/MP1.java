@@ -49,7 +49,7 @@ public class MP1 {
 		case "D-":
 //			System.out.println("D-");
 			return 0.7;
-		case "F":
+		case "Fail":
 //			System.out.println("F");
 			return 0;
 
@@ -61,72 +61,62 @@ public class MP1 {
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
         BufferedReader br1 = null;
+        BufferedReader br2 = null;
         BufferedWriter bw1 = null;
+        int bbs1 = 1000;
+        int bbs2 = 20000;
         String content = null;
-        int number = 0;
         long numberOfIO = 0;
-        int sublists = 0;
         ArrayList<String> t1 = new ArrayList<>();
+        ArrayList<String> t2 = new ArrayList<>();
         
         try {
-//        		
-        	 	br1 = new BufferedReader(new FileReader(inFile1));
-        	 	System.out.println(" Free memory left: "+Runtime.getRuntime().freeMemory());
-        	 	for (int i = 0;i<20000;i++) {
-        	 		content=br1.readLine();
-					t1.add(content);
-        	 	}
+//        		System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
+        		br1 = new BufferedReader(new FileReader(inFile1));
+        		br2 = new BufferedReader(new FileReader(inFile2));
+        		bw1 = new BufferedWriter(new FileWriter(result));
+        		while((content=br1.readLine())!=null){        			
+        			for (int i = 0;i<bbs1;i++) {
+        				if (content!=null) t1.add(content);
+					content=br1.readLine();
+        			}
+//        			System.out.println(t1.size());
+        			
+        			while((content=br2.readLine())!=null){
+	        			for (int i = 0;i<bbs2;i++) {
+	        				if (content!=null)t2.add(content);
+	        				content=br2.readLine();
+	            	 	}
+	        			numberOfIO++;
+	        			for (int i = 0;i<t2.size();i++) {
+	        				for (int j = 0;j<t1.size();j++) {
+	        					if (t2.get(i).substring(0, 8).equals(t1.get(j).substring(0, 8))) {
+	        						bw1.write(t1.get(j)+t2.get(i));
+	        						bw1.newLine();
+	        						break;
+	        					}
+	        				}
+	        				
+	        			}
+	        			System.out.print(numberOfIO);
+	        			System.out.println(" time:"+ (System.currentTimeMillis() -  startTime));
+//	        			System.out.println(" Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
+	        			t2.clear();
+	        			
+        			}
+        			
+        			t1.clear();
+        			
+        		}
+        	 	t1.clear();
+        	 	t2.clear();
+        	 	br2.close();
         	 	br1.close();
-        	 	System.out.println(" Free memory left: "+Runtime.getRuntime().freeMemory());
-//			while((content=br1.readLine())!=null){
-//        	 	for (int i = 0;i<50000;i++) {
-////				System.out.println(" Free memory left: "+Runtime.getRuntime().freeMemory());
-////				System.out.println(content);
-//				while (Runtime.getRuntime().freeMemory()>500000) {
-//					content=br1.readLine();
-//					t1.add(content);
-//					number +=1;
-//					numberOfIO +=100;
-//				}
-//				sublists +=1;
-//				t1.clear();
-//        	 		
-//			}
-//			br1.close();
-//			double[] credits = new double[t1.size()];
-//			double[] points = new double[t1.size()];;
-//			for (int i = 0; i < t1.size(); i++) {
-//				credits[i] = 0;
-//				points[i] = 0;
-//			}
-//			br1 = new BufferedReader(new FileReader(inFile2));
-			bw1 = new BufferedWriter(new FileWriter(result));
-////			while((content=br1.readLine())!=null){
-//			for (int j = 0; j < 5000; j++) {
-////				System.out.println(j);
-//				content = br1.readLine();
-//				for (int i = 0; i< t1.size(); i++) {
-//					if (content.substring(0, 8).equals(t1.get(i).substring(0, 8))) {
-//						credits[i] += Double.parseDouble(content.substring(21, 23));
-//						points[i] += convertGrade(content.substring(23)) * Double.parseDouble(content.substring(21, 23));
-//						bw1.write(t1.get(i)+content.substring(8));
-//						bw1.newLine();
-//					}
-//				}
-//				number +=1;
-//				numberOfIO +=27;
-//			}
-//			br1.close();
-//			bw1.close();
-//			bw1 = new BufferedWriter(new FileWriter(gpaResult));
-//			for (int i = 0; i< t1.size(); i++) {
-//				double gpa = (double)Math.round((points[i]/credits[i])*10.0)/10.0;
-//				bw1.write(t1.get(i).substring(0, 8)+" "+gpa);
-//				bw1.newLine();
-//			}
-//			bw1.close();
-			long time = System.currentTimeMillis()-startTime;
-            System.out.println("time:"+ time +" number:"+number+" IO:"+numberOfIO+ " subs:"+sublists );
+        	 	bw1.close();
+        	 	System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
+        	 	System.out.println("time:"+ (System.currentTimeMillis() -  startTime) +" times:"+numberOfIO );
+        	 	
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
