@@ -7,8 +7,8 @@ import java.util.HashSet;
 public class test {
 static public void main(String[] args) {
 	try {
-	BufferedReader t2 = new BufferedReader(new FileReader(new File("T2.txt")));
-	BufferedReader sortedt2 = new BufferedReader(new FileReader(new File("premapT2_63_0.txt")));
+	BufferedReader t2 = new BufferedReader(new FileReader(new File("result.txt")));
+	BufferedReader sortedt2 = new BufferedReader(new FileReader(new File("LoopResult.txt")));
 	//ArrayList<String> in = new ArrayList<>();
 	HashSet<String> in = new HashSet<>();
 	HashSet<String> out = new HashSet<>();

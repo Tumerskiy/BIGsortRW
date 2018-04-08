@@ -9,71 +9,72 @@ import java.util.HashSet;
 
 
 public class test2 {
-	public static String convertGrade(String grade) {
-		switch (grade.trim()) {
-		case "A+":
-//			System.out.println("A+");
-			return "4.3";
-		case "A":
-//			System.out.println("A");
-			return "4.0";
-		case "A-":
-//			System.out.println("A-");
-			return "3.7";
-		case "B+":
-//			System.out.println("B+");
-			return "3.3";
-		case "B":
-//			System.out.println("B");
-			return "3.0";
-		case "B-":
-//			System.out.println("B-");
-			return "2.7";
-		case "C+":
-//			System.out.println("C+");
-			return "2.3";
-		case "C":
-//			System.out.println("C");
-			return "2.0";
-		case "C-":
-//			System.out.println("C-");
-			return "1.7";
-		case "D+":
-//			System.out.println("D+");
-			return "1.3";
-		case "D":
-//			System.out.println("D");
-			return "1.0";
-		case "D-":
-//			System.out.println("D-");
-			return "0.7";
-		case "Fail":
-//			System.out.println("F");
-			return "0.0";
+	public static int convertGrade(String grade) {
+        switch (grade.trim()) {
+        case "A+":
+//          System.out.println("A+");
+            return 43;
+        case "A":
+//          System.out.println("A");
+            return 40;
+        case "A-":
+//          System.out.println("A-");
+            return 37;
+        case "B+":
+//          System.out.println("B+");
+            return 33;
+        case "B":
+//          System.out.println("B");
+            return 30;
+        case "B-":
+//          System.out.println("B-");
+            return 27;
+        case "C+":
+//          System.out.println("C+");
+            return 23;
+        case "C":
+//          System.out.println("C");
+            return 20;
+        case "C-":
+//          System.out.println("C-");
+            return 17;
+        case "D+":
+//          System.out.println("D+");
+            return 13;
+        case "D":
+//          System.out.println("D");
+            return 10;
+        case "D-":
+//          System.out.println("D-");
+            return 7;
+        case "Fail":
+//          System.out.println("F");
+            return 0;
 
-		default:
-			return "0.0";
-		}
-	}
+        default:
+            return 0;
+        }
+    }
+    
 	
 	static public void main(String[] args) {
 	try {
 		BufferedReader t2 = new BufferedReader(new FileReader(new File("testGpa.txt")));
-		BigDecimal credit = new BigDecimal(0);
-		BigDecimal grade = new BigDecimal(0);
+		int credit =0;
+		int grade = 0;
 		
 		String content1 = null;
 		String content2 = null;
 		while ((content1=t2.readLine())!=null) {
-			credit = credit.add(new BigDecimal(content1.substring(21, 23).trim()));
-			grade = grade.add(new BigDecimal(content1.substring(21, 23).trim()).multiply(new BigDecimal(convertGrade(content1.substring(23)))));
+			credit += Integer.parseInt(content1.substring(21,23).trim());
+			grade += Integer.parseInt(content1.substring(21,23).trim()) * convertGrade(content1.substring(23));
 		}
 
 		System.out.println(grade);
 		System.out.println(credit);
-		System.out.println(grade.divide(credit,	RoundingMode.HALF_UP));
-//		double gpa = Math.round((grade/credit)*10.0)/10.0;
-//		System.out.println(gpa);
+		
+		double gpa = grade/credit;
+		System.out.println(gpa);
 		
 		
 	} catch (Exception e){

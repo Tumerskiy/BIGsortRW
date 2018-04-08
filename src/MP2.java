@@ -20,52 +20,53 @@ public class MP2 {
 	private static TreeSet<String> set = new TreeSet<String>();
 	private static long numberOfIO = 0;
 
-	public static String convertGrade(String grade) {
-		switch (grade.trim()) {
-		case "A+":
-//			System.out.println("A+");
-			return "4.3";
-		case "A":
-//			System.out.println("A");
-			return "4.0";
-		case "A-":
-//			System.out.println("A-");
-			return "3.7";
-		case "B+":
-//			System.out.println("B+");
-			return "3.3";
-		case "B":
-//			System.out.println("B");
-			return "3.0";
-		case "B-":
-//			System.out.println("B-");
-			return "2.7";
-		case "C+":
-//			System.out.println("C+");
-			return "2.3";
-		case "C":
-//			System.out.println("C");
-			return "2.0";
-		case "C-":
-//			System.out.println("C-");
-			return "1.7";
-		case "D+":
-//			System.out.println("D+");
-			return "1.3";
-		case "D":
-//			System.out.println("D");
-			return "1.0";
-		case "D-":
-//			System.out.println("D-");
-			return "0.7";
-		case "Fail":
-//			System.out.println("F");
-			return "0.0";
+	public static int convertGrade(String grade) {
+        switch (grade.trim()) {
+        case "A+":
+//          System.out.println("A+");
+            return 43;
+        case "A":
+//          System.out.println("A");
+            return 40;
+        case "A-":
+//          System.out.println("A-");
+            return 37;
+        case "B+":
+//          System.out.println("B+");
+            return 33;
+        case "B":
+//          System.out.println("B");
+            return 30;
+        case "B-":
+//          System.out.println("B-");
+            return 27;
+        case "C+":
+//          System.out.println("C+");
+            return 23;
+        case "C":
+//          System.out.println("C");
+            return 20;
+        case "C-":
+//          System.out.println("C-");
+            return 17;
+        case "D+":
+//          System.out.println("D+");
+            return 13;
+        case "D":
+//          System.out.println("D");
+            return 10;
+        case "D-":
+//          System.out.println("D-");
+            return 7;
+        case "Fail":
+//          System.out.println("F");
+            return 0;
 
-		default:
-			return "0.0";
-		}
-	}
+        default:
+            return 0;
+        }
+    }
+    
 	
 
 	public static void joinFiles(String file1, String file2) {
@@ -81,13 +82,13 @@ public class MP2 {
 			numberOfIO+=tuppleSize1;
 			numberOfIO+=tuppleSize2;
 
-			BigDecimal c = new BigDecimal(0);
-			BigDecimal points = new BigDecimal(0);
+			int c = 0;
+			int points = 0;
 
 			while(content2!=null && content1 !=null) {
 				if (content1.substring(0, 8).equals(content2.substring(0, 8))) {
-					c = c.add(new BigDecimal(content2.substring(21, 23).trim()));
-					points = points.add(new BigDecimal(content2.substring(21, 23).trim()).multiply(new BigDecimal(convertGrade(content2.substring(23)))));
+					c += Integer.parseInt( content2.substring(21, 23).trim() );
+					points += Integer.parseInt( content2.substring(21, 23).trim() ) * convertGrade(content2.substring(23));
 					// write file content1 + content2
 					bw.write(content1+content2.substring(8));
 					numberOfIO+=tuppleSize1+tuppleSize2-8;
@@ -97,14 +98,14 @@ public class MP2 {
 					numberOfIO+=tuppleSize2;
 					
 					if (content2 == null) {
-						bwGPA.write(content1.substring(0,8) + " "+points.divide(c,RoundingMode.HALF_UP));
+						bwGPA.write(content1.substring(0,8) + " "+Math.round(((double)points/(double)c))/10.0);
 						numberOfIO+=12;
 						bwGPA.newLine();
 					}
 				} else {
 					if (content2.substring(0,8).compareTo(content1.substring(0,8))<0) { // if content2 is smaller than content1
-						if (c.signum() != 0) {
-							bwGPA.write(content2.substring(0,8) + " "+points.divide(c,RoundingMode.HALF_UP));
+						if (c!= 0) {
+							bwGPA.write(content2.substring(0,8) + " "+Math.round(((double)points/(double)c))/10.0);
 							numberOfIO+=12;
 							bwGPA.newLine();
 						}
@@ -112,16 +113,16 @@ public class MP2 {
 						numberOfIO+=tuppleSize2;
 
 					} else { // content1 is smaller than content2
-						if (c.signum() != 0) {
-							bwGPA.write(content1.substring(0,8) + " "+points.divide(c,RoundingMode.HALF_UP));
+						if (c != 0) {
+							bwGPA.write(content1.substring(0,8) + " "+Math.round(((double)points/(double)c))/10.0);
 							numberOfIO+=12;
 							bwGPA.newLine();
 						}
 						content1 = br1.readLine();
 						numberOfIO+=tuppleSize1;
 					}
-					c = new BigDecimal(0);
-					points = new BigDecimal(0);
+					c = 0;
+					points = 0;
 				}
 			}
 			bw.close();
@@ -224,8 +225,8 @@ public class MP2 {
 		long heapMaxSize = Runtime.getRuntime().maxMemory();
 		//System.out.println(heapMaxSize);
 		int bs= (int) ((heapMaxSize/10000));
-		int bbs1 = bs*10;
-		int bbs2 = bs*10;
+		int bbs1 = bs*5;
+		int bbs2 = bs*5;
 
 		try {
 			br1 = new BufferedReader(new FileReader(inFile1));
