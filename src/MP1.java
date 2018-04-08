@@ -108,17 +108,32 @@ public class MP1 {
         				if (t1.get(content.substring(0, 8))!=null) {
     						bw1.write(t1.get(content.substring(0, 8))+content);
     						bw1.newLine();
-    						
-    						credits.put(content.substring(0, 8), credits.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
-    						grades.put(content.substring(0, 8), grades.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
+    						if (credits.get(content.substring(0, 8))!=null) {
+								credits.put(content.substring(0, 8), credits.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
+							} else{
+								credits.put(content.substring(0, 8),Double.parseDouble(content.substring(21, 23)));
+							}
+							if (grades.get(content.substring(0, 8))!=null) {
+								//grades.put(content.substring(0, 8), grades.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));}
+								grades.put(content.substring(0, 8), grades.get(content.substring(0, 8)) + convertGrade(content.substring(23)) * Double.parseDouble(content.substring(21, 23)));
+							}
+    						else{
+								grades.put(content.substring(0, 8),Double.parseDouble(content.substring(21, 23)));
+							}
         				}
 	        			
         			}
         			br2.close();
         			// read from credits grades and t1
 //        		gpa formula	(double)Math.round((points/credits)*10.0)/10.0
-        			
+
+					for(String key: t1.keySet()){
+						if(grades.get(key)!=null && credits.get(key)!=null) {
+							bw2.write(key + " " + (double) Math.round((grades.get(key) / credits.get(key))*10)/10+"\n");
+						}
+					}
         		}
+
         	 	t2.clear();
         	 	br2.close();
         	 	br1.close();
