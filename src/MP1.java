@@ -95,13 +95,14 @@ public class MP1 {
     					t1.put(content.substring(0, 8), content.substring(8));
     					credits.put(content.substring(0, 8), new BigDecimal("0"));
     					grades.put(content.substring(0, 8), new BigDecimal("0"));
-    					numberOfIO++;
+    					numberOfIO+=100;
         			}
         			for (int i = 1;i<bbs1;i++) {
         				if ((content=br1.readLine())!=null) {
         					t1.put(content.substring(0, 8), content.substring(8));
         					credits.put(content.substring(0, 8), new BigDecimal("0"));
         					grades.put(content.substring(0, 8), new BigDecimal("0"));
+        					numberOfIO+=100;
         				}
         				
         			}
@@ -113,9 +114,11 @@ public class MP1 {
         			while((content=br2.readLine())!=null){
         				if (t1.get(content.substring(0, 8))!=null) {
     						bw1.write(content.substring(0, 8)+t1.get(content.substring(0, 8))+content.substring(8));
+    						numberOfIO+=119;
     						bw1.newLine();
     						credits.put(content.substring(0, 8), credits.get(content.substring(0, 8)).add(new BigDecimal(content.substring(21, 23).trim())));
-    						grades.put(content.substring(0, 8),grades.get(content.substring(0, 8)).add(new BigDecimal(content.substring(21, 23).trim()).multiply(new BigDecimal(convertGrade(content.substring(23)))))); 
+    						grades.put(content.substring(0, 8),grades.get(content.substring(0, 8)).add(new BigDecimal(content.substring(21, 23).trim()).multiply(new BigDecimal(convertGrade(content.substring(23))))));
+    						numberOfIO+=27;
     						
         				}
 	        			
@@ -127,6 +130,7 @@ public class MP1 {
 					for(String key: t1.keySet()){
 						if(grades.get(key)!=null && credits.get(key)!=null) {
 							bw2.write(key + " " + grades.get(key).divide(credits.get(key), RoundingMode.HALF_UP)+"\n");
+							numberOfIO+=12;
 						}
 					}
         		}
@@ -136,8 +140,7 @@ public class MP1 {
         	 	br1.close();
         	 	bw1.close();
         	 	bw2.close();
-        	 	System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
-        	 	System.out.println("time:"+ (System.currentTimeMillis() -  startTime) +" times:"+numberOfIO );
+        	 	System.out.println("Nested Loop time:"+ (System.currentTimeMillis() -  startTime) +" IO:"+numberOfIO/4096 );
         	 	
 			
 		} catch (IOException e) {
