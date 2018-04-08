@@ -34,7 +34,7 @@ public class Entries {
 			e.printStackTrace();
 		}
 		
-		for (int j=0;j<50000;j++) {
+		for (int j=0;j<1000;j++) {
 			try {
 //				if (random.nextInt(60)>10) {
 //					sid = 10000000 + random.nextInt( 90000000);

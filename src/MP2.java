@@ -1,8 +1,9 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.io.BufferedReader;
 import java.io.BufferedWriter; 
 import java.util.ArrayList;
@@ -19,115 +20,53 @@ public class MP2 {
 	private static TreeSet<String> set = new TreeSet<String>();
 	private static long numberOfIO = 0;
 
-	public static double convertGrade(String grade) {
+	public static String convertGrade(String grade) {
 		switch (grade.trim()) {
 		case "A+":
-			//			System.out.println("A+");
-			return 4.3;
+//			System.out.println("A+");
+			return "4.3";
 		case "A":
-			//			System.out.println("A");
-			return 4.0;
+//			System.out.println("A");
+			return "4.0";
 		case "A-":
-			//			System.out.println("A-");
-			return 3.7;
+//			System.out.println("A-");
+			return "3.7";
 		case "B+":
-			//			System.out.println("B+");
-			return 3.3;
+//			System.out.println("B+");
+			return "3.3";
 		case "B":
-			//			System.out.println("B");
-			return 3.0;
+//			System.out.println("B");
+			return "3.0";
 		case "B-":
-			//			System.out.println("B-");
-			return 2.7;
+//			System.out.println("B-");
+			return "2.7";
 		case "C+":
-			//			System.out.println("C+");
-			return 2.3;
+//			System.out.println("C+");
+			return "2.3";
 		case "C":
-			//			System.out.println("C");
-			return 2.0;
+//			System.out.println("C");
+			return "2.0";
 		case "C-":
-			//			System.out.println("C-");
-			return 1.7;
+//			System.out.println("C-");
+			return "1.7";
 		case "D+":
-			//			System.out.println("D+");
-			return 1.3;
+//			System.out.println("D+");
+			return "1.3";
 		case "D":
-			//			System.out.println("D");
-			return 1.0;
+//			System.out.println("D");
+			return "1.0";
 		case "D-":
-			//			System.out.println("D-");
-			return 0.7;
-		case "F":
-			//			System.out.println("F");
-			return 0;
+//			System.out.println("D-");
+			return "0.7";
+		case "Fail":
+//			System.out.println("F");
+			return "0.0";
 
 		default:
-			return 0;
+			return "0.0";
 		}
 	}
 	
-	public static long loopLoopMerge(String sortedT1) {
-		long num = 0;
-		int bs;
-		String content;
-		BufferedReader br1 = null;
-		BufferedWriter bw1 = null;
-		BufferedWriter bw2 = null;
-		bs = (int) (Runtime.getRuntime().freeMemory()/230);
-		
-		ArrayList<String> t1 = new ArrayList<>();
-		try {
-			bw1 = new BufferedWriter(new FileWriter(new File("loopLoopResult")));
-			bw2 = new BufferedWriter(new FileWriter(new File("loopLoopGPA")));
-			br1 = new BufferedReader(new FileReader(new File(sortedT1)));
-			while((content=br1.readLine())!=null){
-				num +=100;
-				System.out.println(bs);
-				for (int i = 0;i<bs;i++) {
-					if (content != null) t1.add(content);
-					content = br1.readLine();
-					num +=100;
-					
-				}
-				double[] credits = new double[t1.size()];
-				double[] points = new double[t1.size()];
-				for (int i = 0; i < t1.size(); i++) {
-					credits[i] = 0;
-					points[i] = 0;
-				}
-				
-				BufferedReader br2 = new BufferedReader(new FileReader(inFile2));
-				while((content=br2.readLine())!=null){
-					num +=27;
-					for (int i = 0; i< t1.size(); i++) {
-						if (content.substring(0, 8).equals(t1.get(i).substring(0, 8))) {
-							credits[i] += Double.parseDouble(content.substring(21, 23));
-							points[i] += convertGrade(content.substring(23)) * Double.parseDouble(content.substring(21, 23));
-							bw1.write(t1.get(i)+content.substring(8));
-							num +=100+27-8;
-							bw1.newLine();
-						}
-					}
-
-				}
-				br2.close();
-				for (int i = 0; i< t1.size(); i++) {
-					bw2.write(t1.get(i).substring(0, 8)+" "+(double)Math.round((points[i]/credits[i])*10.0)/10.0);
-					num +=13;
-					bw2.newLine();
-				}
-				t1.clear();
-			}
-			br1.close();
-			bw1.close();
-			bw2.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return num;
-		
-	}
 
 	public static void joinFiles(String file1, String file2) {
 		try {
@@ -142,13 +81,13 @@ public class MP2 {
 			numberOfIO+=tuppleSize1;
 			numberOfIO+=tuppleSize2;
 
-			double c = 0;
-			double points = 0;
+			BigDecimal c = new BigDecimal(0);
+			BigDecimal points = new BigDecimal(0);
 
 			while(content2!=null && content1 !=null) {
 				if (content1.substring(0, 8).equals(content2.substring(0, 8))) {
-					c += Double.parseDouble(content2.substring(21,23));
-					points += convertGrade(content2.substring(23)) * Double.parseDouble(content2.substring(21,23));
+					c = c.add(new BigDecimal(content2.substring(21, 23).trim()));
+					points = points.add(new BigDecimal(content2.substring(21, 23).trim()).multiply(new BigDecimal(convertGrade(content2.substring(23)))));
 					// write file content1 + content2
 					bw.write(content1+content2.substring(8));
 					numberOfIO+=tuppleSize1+tuppleSize2-8;
@@ -158,14 +97,14 @@ public class MP2 {
 					numberOfIO+=tuppleSize2;
 					
 					if (content2 == null) {
-						bwGPA.write(content1.substring(0,8) + " "+(double)Math.round((points/c)*10.0)/10.0);
+						bwGPA.write(content1.substring(0,8) + " "+points.divide(c,RoundingMode.HALF_UP));
 						numberOfIO+=12;
 						bwGPA.newLine();
 					}
 				} else {
 					if (content2.substring(0,8).compareTo(content1.substring(0,8))<0) { // if content2 is smaller than content1
-						if (c != 0) {
-							bwGPA.write(content2.substring(0,8) + " "+(double)Math.round((points/c)*10.0)/10.0);
+						if (c.signum() != 0) {
+							bwGPA.write(content2.substring(0,8) + " "+points.divide(c,RoundingMode.HALF_UP));
 							numberOfIO+=12;
 							bwGPA.newLine();
 						}
@@ -173,16 +112,16 @@ public class MP2 {
 						numberOfIO+=tuppleSize2;
 
 					} else { // content1 is smaller than content2
-						if (c != 0) {
-							bwGPA.write(content1.substring(0,8) + " "+(double)Math.round((points/c)*10.0)/10.0);
+						if (c.signum() != 0) {
+							bwGPA.write(content1.substring(0,8) + " "+points.divide(c,RoundingMode.HALF_UP));
 							numberOfIO+=12;
 							bwGPA.newLine();
 						}
 						content1 = br1.readLine();
 						numberOfIO+=tuppleSize1;
 					}
-					c = 0;
-					points = 0;
+					c = new BigDecimal(0);
+					points = new BigDecimal(0);
 				}
 			}
 			bw.close();
@@ -358,7 +297,6 @@ public class MP2 {
 			// multi-merge
 
 			String sortedT1 = multimergesorter(files1, 100);
-			long loopLoopMergeTime = System.currentTimeMillis()-startTime;
 			String sortedT2 = multimergesorter(files2, 27);
 
 			long mergeTime = System.currentTimeMillis()-startTime;
@@ -370,10 +308,6 @@ public class MP2 {
 			long joinTime = System.currentTimeMillis()-startTime;
 			System.out.println("Join phase: time:"+ joinTime +" IO:"+numberOfIO/4096 );
 			
-			//loop-loop
-			//long finalLoopTime = System.currentTimeMillis();
-			//numberOfIO+=loopLoopMerge( sortedT1);
-		//	System.out.println("Loop-Loop phase: time:"+ (loopLoopMergeTime + (System.currentTimeMillis()-finalLoopTime))+" IO:"+numberOfIO/4096 );
 
 		} catch (Exception e) {
 			e.printStackTrace();
