@@ -10,8 +10,8 @@ import java.util.Map;
 public class MP1 {
 	private static File inFile1 = new File("T1.txt");
 	private static File inFile2 = new File("T2.txt");
-	private static File result = new File("result.txt");
-	private static File gpaResult = new File("gpa.txt");
+	private static File result = new File("LoopResult.txt");
+	private static File gpaResult = new File("Loopgpa.txt");
 	
 	public static double convertGrade(String grade) {
 		switch (grade.trim()) {
@@ -68,12 +68,12 @@ public class MP1 {
         BufferedReader br1 = null;
         BufferedReader br2 = null;
         BufferedWriter bw1 = null;
-        int bbs1 = 5000;
+        BufferedWriter bw2 = null;
+        int bbs1 = 8400;
 //        int bbs2 = 10000;
         String content = null;
         long numberOfIO = 0;
-//        ArrayList<String> t1 = new ArrayList<>();
-        HashMap<String, String> t1 = new HashMap<>();
+        HashMap<String, String> t1;
         HashMap<String, Double> credits = new HashMap<>();
         HashMap<String, Double> grades = new HashMap<>();
         ArrayList<String> t2 = new ArrayList<>();
@@ -81,20 +81,26 @@ public class MP1 {
         try {
 //        		System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
         		br1 = new BufferedReader(new FileReader(inFile1));
-        		
+        		bw2 = new BufferedWriter(new FileWriter(gpaResult));
         		bw1 = new BufferedWriter(new FileWriter(result));
+        		
         		while((content=br1.readLine())!=null){
-        			t1.clear();
-        			credits.clear();
-        			grades.clear();
-        			for (int i = 0;i<bbs1;i++) {
-        				if (content!=null) {
+//        			t1.clear();
+        			t1 = new HashMap<>();
+//        			credits.clear();
+//        			grades.clear();
+        			if (content!=null) {
+    					t1.put(content.substring(0, 8), content.substring(8));
+    					numberOfIO++;
+        			}
+        			for (int i = 1;i<bbs1;i++) {
+        				if ((content=br1.readLine())!=null) {
         					t1.put(content.substring(0, 8), content.substring(8));
-        					
-//        					credits.put(content.substring(0, 8), (double) 0);
-//        					grades.put(content.substring(0, 8), (double) 0);
+        					numberOfIO++;
+        					credits.put(content.substring(0, 8), (double) 0);
+        					grades.put(content.substring(0, 8), (double) 0);
         				}
-					content=br1.readLine();
+					
         			}
 //        			System.out.println(t1.size());
         			br2 = new BufferedReader(new FileReader(inFile2));
@@ -103,38 +109,21 @@ public class MP1 {
     						bw1.write(t1.get(content.substring(0, 8))+content);
     						bw1.newLine();
     						
-//    						credits.put(content.substring(0, 8), credits.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
-//    						grades.put(content.substring(0, 8), grades.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
-    						
-    						numberOfIO++;
-    					}
-//	        			for (int i = 0;i<bbs2;i++) {
-//	        				if (content!=null)t2.add(content);
-//	        				content=br2.readLine();
-//	            	 	}
-//	        			System.out.println(t2.size());
-//	        			
-//	        			for (int i = 0;i<t2.size();i++) {
-//	        					if (t1.get(t2.get(i).substring(0, 8))!=null) {
-//	        						bw1.write(t1.get(t2.get(i).substring(0, 8))+t2.get(i));
-//	        						bw1.newLine();
-//	        						numberOfIO++;
-//	        					}
-//	        				
-//	        			}
-////	        			System.out.print(numberOfIO);
-////	        			System.out.println(" time:"+ (System.currentTimeMillis() -  startTime));
-////	        			System.out.println(" Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
-//	        			t2.clear();
+    						credits.put(content.substring(0, 8), credits.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
+    						grades.put(content.substring(0, 8), grades.get(content.substring(0, 8)) + Double.parseDouble(content.substring(21, 23)));
+        				}
 	        			
         			}
         			br2.close();
+        			// read from credits grades and t1
+//        		gpa formula	(double)Math.round((points/credits)*10.0)/10.0
         			
         		}
         	 	t2.clear();
         	 	br2.close();
         	 	br1.close();
         	 	bw1.close();
+        	 	bw2.close();
         	 	System.out.println("Free memory left: "+Runtime.getRuntime().freeMemory()/1024+"KB");
         	 	System.out.println("time:"+ (System.currentTimeMillis() -  startTime) +" times:"+numberOfIO );
         	 	
